@@ -1,0 +1,13 @@
+.venv/
+.conda/
+__pycache__/
+*.pyc
+
+# Local secrets/env
+BQENV.txt
+.env
+.env.*
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

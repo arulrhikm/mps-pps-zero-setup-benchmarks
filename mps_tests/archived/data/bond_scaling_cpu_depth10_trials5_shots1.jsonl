@@ -1,0 +1,36 @@
+# MPS Bond Scaling CPU  |  n=40, depth=10, shots=1, trials=5
+# bond_dimension, trial, num_qubits, depth, shots, num_gates, num_cx_gates, job_id, queue_time_ms, run_time_ms
+{"trial": 0, "num_qubits": 40, "depth": 10, "bond_dimension": 4, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "CkSjCjldVijPCASF", "queue_time_ms": 150303, "run_time_ms": 9190}
+{"trial": 1, "num_qubits": 40, "depth": 10, "bond_dimension": 4, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "dFDZvfBwoQup6oYW", "queue_time_ms": 229, "run_time_ms": 3084}
+{"trial": 2, "num_qubits": 40, "depth": 10, "bond_dimension": 4, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "VIru4bMTDiRA3UkN", "queue_time_ms": 220, "run_time_ms": 3059}
+{"trial": 3, "num_qubits": 40, "depth": 10, "bond_dimension": 4, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "GaI0sBoX2TivooR7", "queue_time_ms": 219, "run_time_ms": 3094}
+{"trial": 4, "num_qubits": 40, "depth": 10, "bond_dimension": 4, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "s8qPn2NVpmZnjFmd", "queue_time_ms": 217, "run_time_ms": 3025}
+{"trial": 0, "num_qubits": 40, "depth": 10, "bond_dimension": 8, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "d7xqTC3ySjCWORPC", "queue_time_ms": 223, "run_time_ms": 3507}
+{"trial": 1, "num_qubits": 40, "depth": 10, "bond_dimension": 8, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "nVzBK9tkJykv39Cz", "queue_time_ms": 217, "run_time_ms": 3285}
+{"trial": 2, "num_qubits": 40, "depth": 10, "bond_dimension": 8, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "KFolnuMQzVtDsvLJ", "queue_time_ms": 220, "run_time_ms": 3238}
+{"trial": 3, "num_qubits": 40, "depth": 10, "bond_dimension": 8, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "vXhiLxmPI3drRvHy", "queue_time_ms": 212, "run_time_ms": 3292}
+{"trial": 4, "num_qubits": 40, "depth": 10, "bond_dimension": 8, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "yLBfqaAbUuztDklW", "queue_time_ms": 205, "run_time_ms": 3210}
+{"trial": 0, "num_qubits": 40, "depth": 10, "bond_dimension": 12, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "ddbaIqJgtBUjSl0o", "queue_time_ms": 209, "run_time_ms": 3490}
+{"trial": 1, "num_qubits": 40, "depth": 10, "bond_dimension": 12, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "ANqL0ndfC5xHANm8", "queue_time_ms": 212, "run_time_ms": 3893}
+{"trial": 2, "num_qubits": 40, "depth": 10, "bond_dimension": 12, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "Al2STbKYl0DtpkE4", "queue_time_ms": 288, "run_time_ms": 3559}
+{"trial": 3, "num_qubits": 40, "depth": 10, "bond_dimension": 12, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "ntSV5hEjnHzQh7wR", "queue_time_ms": 227, "run_time_ms": 3609}
+{"trial": 4, "num_qubits": 40, "depth": 10, "bond_dimension": 12, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "AqtLWb1VwkeOKV7O", "queue_time_ms": 228, "run_time_ms": 3503}
+{"trial": 0, "num_qubits": 40, "depth": 10, "bond_dimension": 16, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "1xeImlHfSRXOfKEh", "queue_time_ms": 233, "run_time_ms": 3899}
+{"trial": 1, "num_qubits": 40, "depth": 10, "bond_dimension": 16, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "Da8awQx9b3ocOrVK", "queue_time_ms": 226, "run_time_ms": 4338}
+{"trial": 2, "num_qubits": 40, "depth": 10, "bond_dimension": 16, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "e1HN0uODa1sxqeDt", "queue_time_ms": 222, "run_time_ms": 4018}
+{"trial": 3, "num_qubits": 40, "depth": 10, "bond_dimension": 16, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "CmD8TNk3rE7QI8As", "queue_time_ms": 219, "run_time_ms": 4069}
+{"trial": 4, "num_qubits": 40, "depth": 10, "bond_dimension": 16, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "4RCCoZr0MkEKSQDY", "queue_time_ms": 216, "run_time_ms": 3933}
+{"trial": 0, "num_qubits": 40, "depth": 10, "bond_dimension": 20, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "Yx0RtTGvjiGTajLn", "queue_time_ms": 211, "run_time_ms": 4387}
+{"trial": 1, "num_qubits": 40, "depth": 10, "bond_dimension": 20, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "bBGgDAuNBR4S84KR", "queue_time_ms": 217, "run_time_ms": 4906}
+{"trial": 2, "num_qubits": 40, "depth": 10, "bond_dimension": 20, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "OJp8Xb8ULqLomC38", "queue_time_ms": 244, "run_time_ms": 4524}
+{"trial": 3, "num_qubits": 40, "depth": 10, "bond_dimension": 20, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "SVbnXICopLGL0P60", "queue_time_ms": 218, "run_time_ms": 4638}
+{"trial": 4, "num_qubits": 40, "depth": 10, "bond_dimension": 20, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "53xqBbDvdfnY1Qpw", "queue_time_ms": 210, "run_time_ms": 4461}
+{"trial": 0, "num_qubits": 40, "depth": 10, "bond_dimension": 24, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "EdHzZ4G1pqd2Jtus", "queue_time_ms": 205, "run_time_ms": 6301}
+{"trial": 1, "num_qubits": 40, "depth": 10, "bond_dimension": 24, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "GC7Pi3oOqqYLN8bx", "queue_time_ms": 227, "run_time_ms": 6931}
+{"trial": 2, "num_qubits": 40, "depth": 10, "bond_dimension": 24, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "9xMERVHFhQ1z8Wd7", "queue_time_ms": 215, "run_time_ms": 6480}
+{"trial": 3, "num_qubits": 40, "depth": 10, "bond_dimension": 24, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "T8hpjW0vJyWjjS4R", "queue_time_ms": 222, "run_time_ms": 6693}
+{"trial": 4, "num_qubits": 40, "depth": 10, "bond_dimension": 24, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "qsoAv3rJhcta19pW", "queue_time_ms": 218, "run_time_ms": 6385}
+{"trial": 0, "num_qubits": 40, "depth": 10, "bond_dimension": 28, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "gCwn8Td5RIOLcpVD", "queue_time_ms": 204, "run_time_ms": 7258}
+{"trial": 1, "num_qubits": 40, "depth": 10, "bond_dimension": 28, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "RhmwzDtK2TmciYR8", "queue_time_ms": 230, "run_time_ms": 8164}
+{"trial": 2, "num_qubits": 40, "depth": 10, "bond_dimension": 28, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "3jhc6pMrsuVxeX2D", "queue_time_ms": 230, "run_time_ms": 8025}
+{"trial": 3, "num_qubits": 40, "depth": 10, "bond_dimension": 28, "shots": 1, "num_gates": 2200, "num_cx_gates": 600, "job_id": "msJDkMhH7PDbj5ni", "queue_time_ms": 234, "run_time_ms": 7788}

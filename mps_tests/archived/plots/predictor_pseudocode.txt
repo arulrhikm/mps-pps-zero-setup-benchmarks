@@ -1,0 +1,65 @@
+# GPU Runtime Predictor
+#
+# Full formula per regime: runtime_ms = (c1*su4s*n + c2*gates + c3*shots) * X^2 + c4
+# Sparse regime fallback:  runtime_ms = alpha * (6*su4s*n + gates + shots) * X^2
+# S = n*d*X^2 selects the regime
+#
+def predict_gpu_runtime_ms(n, d, X, su4s, gates, shots):
+    S = n * d * X**2
+    if S < 3,101,947:                 # R1 (N=27, R2=0.946, med_err=4.8%, ridge)
+        return max(0, (2.628524e-03*su4s*n + -5.925599e-03*gates + 4.468994e-04*shots) * X**2 + (56027.7))
+    elif S < 4,953,934:               # R2 (N=21, R2=0.909, med_err=12.7%, ridge)
+        return max(0, (2.664662e-03*su4s*n + -2.775009e-03*gates + -1.563950e-03*shots) * X**2 + (26460.5))
+    elif S < 8,847,360:               # R3 (N=14, R2=0.543, med_err=30.2%, scaled)
+        return 2.555263e-04 * (6*su4s*n + gates + shots) * X**2
+    elif S < 15,481,916:              # R4 (N=17, R2=0.880, med_err=13.1%, ridge)
+        return max(0, (1.905210e-03*su4s*n + -9.851142e-03*gates + -2.128836e-03*shots) * X**2 + (569916.3))
+    elif S < 23,393,396:              # R5 (N=18, R2=0.981, med_err=6.0%, ridge)
+        return max(0, (1.542097e-03*su4s*n + -2.776900e-03*gates + -1.260218e-03*shots) * X**2 + (154400.6))
+    elif S < 31,604,525:              # R6 (N=19, R2=0.937, med_err=8.1%, ridge)
+        return max(0, (1.788253e-03*su4s*n + -3.310128e-03*gates + -9.857666e-04*shots) * X**2 + (143597.5))
+    elif S < 49,550,272:              # R7 (N=25, R2=0.948, med_err=2.7%, ridge)
+        return max(0, (1.209832e-03*su4s*n + -2.456980e-03*gates + -5.904883e-03*shots) * X**2 + (580637.5))
+    elif S < 59,173,425:              # R8 (N=19, R2=0.982, med_err=2.6%, ridge)
+        return max(0, (1.103539e-03*su4s*n + -2.605393e-03*gates + -4.173517e-04*shots) * X**2 + (380470.0))
+    elif S < 79,900,463:              # R9 (N=20, R2=0.993, med_err=2.1%, ridge)
+        return max(0, (1.075853e-03*su4s*n + -1.585598e-03*gates + -5.073963e-04*shots) * X**2 + (121790.3))
+    elif S <= 276,889,600:            # R10 (N=26, R2=0.989, med_err=1.4%, ridge)
+        return max(0, (8.644821e-04*su4s*n + -4.905707e-04*gates + -2.453977e-03*shots) * X**2 + (257589.5))
+    else:
+        return max(0, (8.644821e-04*su4s*n + -4.905707e-04*gates + -2.453977e-03*shots) * X**2 + (257589.5))
+
+# CPU Runtime Predictor
+#
+# Full formula per regime: runtime_ms = (c1*su4s*n + c2*gates + c3*shots) * X^2 + c4
+# Sparse regime fallback:  runtime_ms = alpha * (6*su4s*n + gates + shots) * X^2
+# S = n*d*X^2 selects the regime
+#
+def predict_cpu_runtime_ms(n, d, X, su4s, gates, shots):
+    S = n * d * X**2
+    if S < 861,376:                   # R1 (N=774, R2=0.841, med_err=22.6%, ridge)
+        return max(0, (2.840285e-03*su4s*n + -1.782389e-03*gates + -1.778275e-03*shots) * X**2 + (6121.9))
+    elif S < 941,366:                 # R2 (N=14, R2=0.489, med_err=9.6%, scaled)
+        return 4.158565e-04 * (6*su4s*n + gates + shots) * X**2
+    elif S < 1,173,144:               # R3 (N=20, R2=0.762, med_err=4.7%, ridge)
+        return max(0, (2.724854e-03*su4s*n + 5.861101e-03*gates + -9.939262e-04*shots) * X**2 + (-33762.7))
+    elif S < 1,448,584:               # R4 (N=16, R2=0.932, med_err=2.2%, ridge)
+        return max(0, (2.991871e-03*su4s*n + -1.678525e-03*gates + -6.069435e-03*shots) * X**2 + (12986.4))
+    elif S < 2,105,831:               # R5 (N=19, R2=0.901, med_err=6.8%, ridge)
+        return max(0, (2.926744e-03*su4s*n + -6.495408e-03*gates + -2.371076e-03*shots) * X**2 + (48489.2))
+    elif S < 11,790,284:              # R6 (N=67, R2=0.978, med_err=3.9%, ridge)
+        return max(0, (2.216432e-03*su4s*n + -6.013451e-04*gates + 2.711199e-04*shots) * X**2 + (-9546.2))
+    elif S < 20,782,858:              # R7 (N=26, R2=0.960, med_err=6.8%, ridge)
+        return max(0, (2.550230e-03*su4s*n + -3.808588e-03*gates + -1.853084e-03*shots) * X**2 + (173453.7))
+    elif S < 51,553,004:              # R8 (N=35, R2=0.950, med_err=6.2%, ridge)
+        return max(0, (2.518824e-03*su4s*n + -7.947065e-04*gates + -5.319648e-03*shots) * X**2 + (60892.2))
+    elif S < 102,853,805:             # R9 (N=31, R2=0.999, med_err=2.4%, ridge)
+        return max(0, (2.944921e-03*su4s*n + -4.508299e-03*gates + -9.885655e-04*shots) * X**2 + (292842.6))
+    elif S <= 180,633,600:            # R10 (N=15, R2=0.989, med_err=3.1%, ridge)
+        return max(0, (3.996568e-03*su4s*n + -5.508214e-03*gates + -1.069564e-03*shots) * X**2 + (-907168.4))
+    else:
+        return max(0, (3.996568e-03*su4s*n + -5.508214e-03*gates + -1.069564e-03*shots) * X**2 + (-907168.4))
+
+# ── Fixed Analytical Formula (CPU baseline) ──
+# runtime_ms = 1e-4 * (6*su4s*n + gates + shots) * X^2
+# Median %err: 82.9%  |  Mean: 82.5%  |  P90: 98.7%

@@ -1,0 +1,10 @@
+# Experiment 5: GPU large-regime targeted sweep
+# Targets: R3–R6+ (su4_n_X2 > 300M)
+{"num_qubits": 40, "depth": 14, "bond_dimension": 256, "trial": 0, "error": "Job YqJVnelqGcx0yTms finished with status: TERMINATED. Terminated since the run was taking much longer than the estimated runtime of 93 s."}
+{"num_qubits": 40, "depth": 18, "bond_dimension": 256, "trial": 0, "error": "Job HCjMIkAbxDUMoGC4 finished with status: TERMINATED. Terminated since the run was taking much longer than the estimated runtime of 118 s."}
+{"num_qubits": 40, "depth": 22, "bond_dimension": 256, "trial": 0, "error": "Job hgM5Utxc3thhSoAy finished with status: TERMINATED. Terminated since the run was taking much longer than the estimated runtime of 143 s."}
+{"num_qubits": 60, "depth": 15, "bond_dimension": 256, "trial": 0, "error": "Job FdtvxU6k1oZ9zNYZ finished with status: TERMINATED. Terminated since the run was taking much longer than the estimated runtime of 217 s."}
+{"num_qubits": 60, "depth": 20, "bond_dimension": 256, "trial": 0, "error": "Job oGpMGQ2x2tk0cPhX finished with status: TERMINATED. Terminated since the run was taking much longer than the estimated runtime of 288 s."}
+{"num_qubits": 60, "depth": 25, "bond_dimension": 256, "trial": 0, "error": "Job PoBhgFAC85FxssGG finished with status: TERMINATED. Terminated since the run was taking much longer than the estimated runtime of 359 s."}
+{"num_qubits": 40, "depth": 12, "bond_dimension": 384, "trial": 0, "error": "Job xnPN2OqiFoFhraSq finished with status: TERMINATED. Terminated since the run was taking much longer than the estimated runtime of 175 s."}
+{"num_qubits": 40, "depth": 16, "bond_dimension": 384, "trial": 0, "error": "Job n59O0t7cgRJuWagO finished with status: TERMINATED. Terminated since the run was taking much longer than the estimated runtime of 232 s."}

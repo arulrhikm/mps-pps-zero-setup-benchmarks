@@ -1,0 +1,3 @@
+# Local env examples (do not commit real credentials)
+$env:QR_TOKEN="YOUR_QR_TOKEN"
+$env:QR_NAME="your_email@example.com"

@@ -1,0 +1,26 @@
+# GPU Runtime Predictor (simplified, all coefficients >= 0)
+# Model: T_ms = c1 * num_su4s * n * X^2 + c2
+# S = n * d * X^2 selects the regime
+#
+def predict_gpu_runtime_ms(n, d, X, num_su4s):
+    S = n * d * X**2
+    if S < 10,321,920:  # R1 (N=69, med_err=27.6%, R²=0.857)
+        return max(0, 1.891426e-03 * num_su4s * n * X**2 + 13763)
+    elif S < 45,787,819:  # R2 (N=68, med_err=27.2%, R²=0.762)
+        return max(0, 9.087179e-04 * num_su4s * n * X**2 + 0)
+    else:  # R3 (N=69, med_err=18.4%, R²=0.775)
+        return max(0, 6.168299e-04 * num_su4s * n * X**2 + 171664)
+
+# CPU Runtime Predictor (simplified, all coefficients >= 0)
+# Model: T_ms = c1 * num_su4s * n * X^2 + c2
+# S = n * d * X^2 selects the regime
+#
+def predict_cpu_runtime_ms(n, d, X, num_su4s):
+    S = n * d * X**2
+    if S < 76,800:  # R1 (N=336, med_err=42.3%, R²=0.391)
+        return max(0, 8.059124e-03 * num_su4s * n * X**2 + 3973)
+    elif S < 453,973:  # R2 (N=342, med_err=19.4%, R²=0.773)
+        return max(0, 2.457839e-03 * num_su4s * n * X**2 + 3765)
+    else:  # R3 (N=339, med_err=15.2%, R²=0.973)
+        return max(0, 2.141591e-03 * num_su4s * n * X**2 + 0)
+

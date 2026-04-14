@@ -1,0 +1,13 @@
+# Braket SV1 benchmark — same circuits as BlueQubit
+{"trial": 0, "num_qubits": 16, "depth": 10, "num_gates": 880, "job_id": "2ca00767-7f07-4a01-9338-e11f7a763217", "queue_time_ms": 0, "run_time_ms": 4817.48, "backend": "braket_sv1"}
+{"trial": 1, "num_qubits": 16, "depth": 10, "num_gates": 880, "job_id": "a157053b-4bf4-4120-be4a-451534b60847", "queue_time_ms": 0, "run_time_ms": 1611.82, "backend": "braket_sv1"}
+{"trial": 0, "num_qubits": 16, "depth": 30, "num_gates": 2640, "job_id": "c9ca21d1-c7cf-466c-ae8c-017f1a31585b", "queue_time_ms": 0, "run_time_ms": 3528.43, "backend": "braket_sv1"}
+{"trial": 1, "num_qubits": 16, "depth": 30, "num_gates": 2640, "job_id": "c9e2d577-668a-4fda-8ae3-74f402381dc5", "queue_time_ms": 0, "run_time_ms": 3324.6, "backend": "braket_sv1"}
+{"trial": 0, "num_qubits": 18, "depth": 10, "num_gates": 990, "job_id": "0900ecc4-a729-48cd-9094-ecd0164045af", "queue_time_ms": 0, "run_time_ms": 4284.03, "backend": "braket_sv1"}
+{"trial": 1, "num_qubits": 18, "depth": 10, "num_gates": 990, "job_id": "56d2e276-778d-4957-9fa0-c273a2f42967", "queue_time_ms": 0, "run_time_ms": 1461.73, "backend": "braket_sv1"}
+{"trial": 0, "num_qubits": 18, "depth": 30, "num_gates": 2970, "job_id": "af5e3bed-cce8-48d9-98af-f1dffac9b47f", "queue_time_ms": 0, "run_time_ms": 4140.48, "backend": "braket_sv1"}
+{"trial": 1, "num_qubits": 18, "depth": 30, "num_gates": 2970, "job_id": "a0652b7a-6646-444b-a86e-b94a4cb0753f", "queue_time_ms": 0, "run_time_ms": 4271.08, "backend": "braket_sv1"}
+{"trial": 0, "num_qubits": 20, "depth": 10, "num_gates": 1100, "job_id": "43bf296c-4e8f-4a5f-9a30-5fc911cc004e", "queue_time_ms": 0, "run_time_ms": 7265.17, "backend": "braket_sv1"}
+{"trial": 1, "num_qubits": 20, "depth": 10, "num_gates": 1100, "job_id": "d699783e-f30f-4a7e-8efb-22cb1b4f3c82", "queue_time_ms": 0, "run_time_ms": 4042.62, "backend": "braket_sv1"}
+{"trial": 0, "num_qubits": 20, "depth": 30, "num_gates": 3300, "job_id": "670266a5-431a-4a7a-8b37-ca4e9247757f", "queue_time_ms": 0, "run_time_ms": 11327.4, "backend": "braket_sv1"}
+{"trial": 1, "num_qubits": 20, "depth": 30, "num_gates": 3300, "job_id": "277eef0e-36bd-4c99-ad99-caccad861c67", "queue_time_ms": 0, "run_time_ms": 11519.32, "backend": "braket_sv1"}

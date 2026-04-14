@@ -1,0 +1,194 @@
+# Quantum Rings cross-platform benchmark
+# run_time_ms = result.time_taken from QR SDK (simulator compute only)
+# total_wall_ms = client-side perf_counter round-trip
+# num_gates = qc.decompose().size() on original Qiskit circuit (circuit complexity proxy, matches BlueQubit baseline)
+{"trial": 0, "num_qubits": 16, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 5722.67, "total_wall_ms": 5722.67, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 16, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 9575.84, "total_wall_ms": 9575.84, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 16, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 11273.78, "total_wall_ms": 11273.78, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 16, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 9378.47, "total_wall_ms": 9378.47, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 16, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 9226.9, "total_wall_ms": 9226.9, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 16, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 18073.94, "total_wall_ms": 18073.94, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 16, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 16584.37, "total_wall_ms": 16584.37, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 16, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 15707.31, "total_wall_ms": 15707.31, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 16, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 17123.56, "total_wall_ms": 17123.56, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 16, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 15803.97, "total_wall_ms": 15803.97, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 17, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 15023.43, "total_wall_ms": 15023.43, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 17, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 14380.72, "total_wall_ms": 14380.72, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 17, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 17292.89, "total_wall_ms": 17292.89, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 17, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 16089.51, "total_wall_ms": 16089.51, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 17, "depth": 30, "num_gates": 2640, "job_id": "0", "run_time_ms": 14240.3, "total_wall_ms": 14240.3, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 17, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 26409.41, "total_wall_ms": 26409.41, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 17, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 28547.96, "total_wall_ms": 28547.96, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 17, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 26164.42, "total_wall_ms": 26164.42, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 17, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 24684.73, "total_wall_ms": 24684.73, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 17, "depth": 60, "num_gates": 5280, "job_id": "0", "run_time_ms": 27009.62, "total_wall_ms": 27009.62, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 18, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 23415.95, "total_wall_ms": 23415.95, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 18, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 18796.12, "total_wall_ms": 18796.12, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 18, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 17728.04, "total_wall_ms": 17728.04, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 18, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 19007.95, "total_wall_ms": 19007.95, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 18, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 17315.26, "total_wall_ms": 17315.26, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 18, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 32362.29, "total_wall_ms": 32362.29, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 18, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 33728.2, "total_wall_ms": 33728.2, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 18, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 32732.13, "total_wall_ms": 32732.13, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 18, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 32643.73, "total_wall_ms": 32643.73, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 18, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 32250.47, "total_wall_ms": 32250.47, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 19, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 18160.08, "total_wall_ms": 18160.08, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 19, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 18577.38, "total_wall_ms": 18577.38, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 19, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 20798.94, "total_wall_ms": 20798.94, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 19, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 20432.45, "total_wall_ms": 20432.45, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 19, "depth": 30, "num_gates": 2970, "job_id": "0", "run_time_ms": 24153.2, "total_wall_ms": 24153.2, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 19, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 51935.3, "total_wall_ms": 51935.3, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 19, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 53629.3, "total_wall_ms": 53629.3, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 19, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 46249.02, "total_wall_ms": 46249.02, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 19, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 50563.38, "total_wall_ms": 50563.38, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 19, "depth": 60, "num_gates": 5940, "job_id": "0", "run_time_ms": 54449.7, "total_wall_ms": 54449.7, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 20, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 37036.56, "total_wall_ms": 37036.56, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 20, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 34002.94, "total_wall_ms": 34002.94, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 20, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 31305.19, "total_wall_ms": 31305.19, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 20, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 35754.73, "total_wall_ms": 35754.73, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 20, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 33439.91, "total_wall_ms": 33439.91, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 20, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 65242.95, "total_wall_ms": 65242.95, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 20, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 51681.98, "total_wall_ms": 51681.98, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 20, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 59017.45, "total_wall_ms": 59017.45, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 20, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 60230.56, "total_wall_ms": 60230.56, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 20, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 63397.56, "total_wall_ms": 63397.56, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 21, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 21064.23, "total_wall_ms": 21064.23, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 21, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 37477.72, "total_wall_ms": 37477.72, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 21, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 36060.04, "total_wall_ms": 36060.04, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 21, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 33756.4, "total_wall_ms": 33756.4, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 21, "depth": 30, "num_gates": 3300, "job_id": "0", "run_time_ms": 36000.94, "total_wall_ms": 36000.94, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 21, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 65281.88, "total_wall_ms": 65281.88, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 21, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 67921.35, "total_wall_ms": 67921.35, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 21, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 71915.72, "total_wall_ms": 71915.72, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 21, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 75086.17, "total_wall_ms": 75086.17, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 21, "depth": 60, "num_gates": 6600, "job_id": "0", "run_time_ms": 75946.69, "total_wall_ms": 75946.69, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 22, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 42345.37, "total_wall_ms": 42345.37, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 22, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 40562.65, "total_wall_ms": 40562.65, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 22, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 42788.24, "total_wall_ms": 42788.24, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 22, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 40664.22, "total_wall_ms": 40664.22, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 22, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 38877.48, "total_wall_ms": 38877.48, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 22, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 81023.42, "total_wall_ms": 81023.42, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 22, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 78701.33, "total_wall_ms": 78701.33, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 22, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 77792.86, "total_wall_ms": 77792.86, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 22, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 86082.09, "total_wall_ms": 86082.09, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 22, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 86559.14, "total_wall_ms": 86559.14, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 23, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 53366.4, "total_wall_ms": 53366.4, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 23, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 53400.42, "total_wall_ms": 53400.42, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 23, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 53728.96, "total_wall_ms": 53728.96, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 23, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 54946.69, "total_wall_ms": 54946.69, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 23, "depth": 30, "num_gates": 3630, "job_id": "0", "run_time_ms": 51420.84, "total_wall_ms": 51420.84, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 23, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 103586.18, "total_wall_ms": 103586.18, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 23, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 107224.7, "total_wall_ms": 107224.7, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 23, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 110117.14, "total_wall_ms": 110117.14, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 23, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 105443.49, "total_wall_ms": 105443.49, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 23, "depth": 60, "num_gates": 7260, "job_id": "0", "run_time_ms": 108787.23, "total_wall_ms": 108787.23, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 24, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 58559.42, "total_wall_ms": 58559.42, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 24, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 65437.13, "total_wall_ms": 65437.13, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 24, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 62423.76, "total_wall_ms": 62423.76, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 24, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 55019.16, "total_wall_ms": 55019.16, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 24, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 61116.49, "total_wall_ms": 61116.49, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 24, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 118607.19, "total_wall_ms": 118607.19, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 24, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 115689.11, "total_wall_ms": 115689.11, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 24, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 125777.41, "total_wall_ms": 125777.41, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 24, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 115076.42, "total_wall_ms": 115076.42, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 24, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 117428.64, "total_wall_ms": 117428.64, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 25, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 63051.35, "total_wall_ms": 63051.35, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 25, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 65592.38, "total_wall_ms": 65592.38, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 25, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 69968.03, "total_wall_ms": 69968.03, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 25, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 66155.07, "total_wall_ms": 66155.07, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 25, "depth": 30, "num_gates": 3960, "job_id": "0", "run_time_ms": 77804.78, "total_wall_ms": 77804.78, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 25, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 139676.21, "total_wall_ms": 139676.21, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 25, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 132866.1, "total_wall_ms": 132866.1, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 25, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 136864.74, "total_wall_ms": 136864.74, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 25, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 137253.8, "total_wall_ms": 137253.8, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 25, "depth": 60, "num_gates": 7920, "job_id": "0", "run_time_ms": 142864.36, "total_wall_ms": 142864.36, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 26, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 84697.38, "total_wall_ms": 84697.38, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 26, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 96845.18, "total_wall_ms": 96845.18, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 26, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 76129.3, "total_wall_ms": 76129.3, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 26, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 88596.61, "total_wall_ms": 88596.61, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 26, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 77489.75, "total_wall_ms": 77489.75, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 26, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 845089.01, "total_wall_ms": 845089.01, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 26, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 227763.93, "total_wall_ms": 227763.93, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 26, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 208164.94, "total_wall_ms": 208164.94, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 26, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 216495.22, "total_wall_ms": 216495.22, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 26, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 221177.38, "total_wall_ms": 221177.38, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 27, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 245850.95, "total_wall_ms": 245850.95, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 27, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 231953.9, "total_wall_ms": 231953.9, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 27, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 230644.21, "total_wall_ms": 230644.21, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 27, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 263079.54, "total_wall_ms": 263079.54, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 27, "depth": 30, "num_gates": 4290, "job_id": "0", "run_time_ms": 261826.54, "total_wall_ms": 261826.54, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 27, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 517589.66, "total_wall_ms": 517589.66, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 27, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 1089751.2, "total_wall_ms": 1089751.2, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 27, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 369480.97, "total_wall_ms": 369480.97, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 27, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 378719.43, "total_wall_ms": 378719.43, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 27, "depth": 60, "num_gates": 8580, "job_id": "0", "run_time_ms": 362692.29, "total_wall_ms": 362692.29, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 28, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 199660.46, "total_wall_ms": 199660.46, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 28, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 192087.98, "total_wall_ms": 192087.98, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 28, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 190888.79, "total_wall_ms": 190888.79, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 28, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 193294.1, "total_wall_ms": 193294.1, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 28, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 200048.38, "total_wall_ms": 200048.38, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 28, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 390911.82, "total_wall_ms": 390911.82, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 28, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 422194.68, "total_wall_ms": 422194.68, "timing_source": "wall_clock_fallback", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 28, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 501176.8, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 28, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 407926.63, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 28, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 381177.45, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 29, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 233965.93, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 29, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 214012.76, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 29, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 188731.34, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 29, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 206834.23, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 29, "depth": 30, "num_gates": 4620, "job_id": "0", "run_time_ms": 197426.6, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 29, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 432643.91, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 29, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 420238.4, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 29, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 419829.28, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 29, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 408045.05, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 29, "depth": 60, "num_gates": 9240, "job_id": "0", "run_time_ms": 314555.88, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 30, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 162686.62, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 30, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 174348.29, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 30, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 173298.02, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 30, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 166624.76, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 30, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 187124.07, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 30, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 426372.13, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 30, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 442278.97, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 30, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 457342.31, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 30, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 518672.95, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 30, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 522494.43, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 31, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 277401.53, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 31, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 283989.17, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 31, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 252353.14, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 31, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 256238.49, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 31, "depth": 30, "num_gates": 4950, "job_id": "0", "run_time_ms": 249750.51, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 31, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 519973.36, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 31, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 499569.36, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 31, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 508894.37, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 31, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 514141.04, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 31, "depth": 60, "num_gates": 9900, "job_id": "0", "run_time_ms": 548635.01, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 32, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 297032.32, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 32, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 312796.04, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 32, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 281457.82, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 32, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 275057.94, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 32, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 261747.79, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 32, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 564543.76, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 32, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 548861.39, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 32, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 595893.46, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 32, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 531833.99, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 32, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 554971.5, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 33, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 344009.85, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 33, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 337092.92, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 33, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 342533.16, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 33, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 349933.69, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 33, "depth": 30, "num_gates": 5280, "job_id": "0", "run_time_ms": 347948.86, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 33, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 715526.52, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 33, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 714491.61, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 33, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 705755.53, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 33, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 698767.56, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 33, "depth": 60, "num_gates": 10560, "job_id": "0", "run_time_ms": 719788.5, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 34, "depth": 30, "num_gates": 5610, "job_id": "0", "run_time_ms": 358373.14, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 34, "depth": 30, "num_gates": 5610, "job_id": "0", "run_time_ms": 423443.57, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 34, "depth": 30, "num_gates": 5610, "job_id": "0", "run_time_ms": 397433.83, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 34, "depth": 30, "num_gates": 5610, "job_id": "0", "run_time_ms": 365782.6, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 34, "depth": 30, "num_gates": 5610, "job_id": "0", "run_time_ms": 388151.29, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 0, "num_qubits": 34, "depth": 60, "num_gates": 11220, "job_id": "0", "run_time_ms": 823331.96, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 1, "num_qubits": 34, "depth": 60, "num_gates": 11220, "job_id": "0", "run_time_ms": 790686.14, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 2, "num_qubits": 34, "depth": 60, "num_gates": 11220, "job_id": "0", "run_time_ms": 817796.52, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 3, "num_qubits": 34, "depth": 60, "num_gates": 11220, "job_id": "0", "run_time_ms": 829170.78, "timing_source": "wall_clock", "backend": "quantum_rings"}
+{"trial": 4, "num_qubits": 34, "depth": 60, "num_gates": 11220, "job_id": "0", "run_time_ms": 778999.49, "timing_source": "wall_clock", "backend": "quantum_rings"}

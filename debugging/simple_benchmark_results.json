@@ -1,0 +1,125 @@
+{
+  "timestamp": "2026-01-28T11:58:00.629422",
+  "results": [
+    {
+      "num_qubits": 8,
+      "depth": 8,
+      "bond_dimension": 8,
+      "num_gates": 352,
+      "gpu_time_ms": 30839,
+      "cpu_time_ms": 8154,
+      "speedup": 0.2644054606180486,
+      "gpu_faster": false
+    },
+    {
+      "num_qubits": 16,
+      "depth": 16,
+      "bond_dimension": 16,
+      "num_gates": 1408,
+      "gpu_time_ms": 21386,
+      "cpu_time_ms": 4489,
+      "speedup": 0.20990367530159917,
+      "gpu_faster": false
+    },
+    {
+      "num_qubits": 24,
+      "depth": 16,
+      "bond_dimension": 16,
+      "num_gates": 2112,
+      "gpu_time_ms": 33169,
+      "cpu_time_ms": 7527,
+      "speedup": 0.2269287587807893,
+      "gpu_faster": false
+    },
+    {
+      "num_qubits": 32,
+      "depth": 16,
+      "bond_dimension": 16,
+      "num_gates": 2816,
+      "gpu_time_ms": 49137,
+      "cpu_time_ms": 10347,
+      "speedup": 0.21057451614872702,
+      "gpu_faster": false
+    },
+    {
+      "num_qubits": 40,
+      "depth": 16,
+      "bond_dimension": 16,
+      "num_gates": 3520,
+      "gpu_time_ms": 67772,
+      "cpu_time_ms": 13943,
+      "speedup": 0.20573393141710442,
+      "gpu_faster": false
+    },
+    {
+      "num_qubits": 48,
+      "depth": 16,
+      "bond_dimension": 16,
+      "num_gates": 4224,
+      "gpu_time_ms": 89275,
+      "cpu_time_ms": 17535,
+      "speedup": 0.1964155698683842,
+      "gpu_faster": false
+    },
+    {
+      "num_qubits": 56,
+      "depth": 16,
+      "bond_dimension": 16,
+      "num_gates": 4928,
+      "gpu_time_ms": 115082,
+      "cpu_time_ms": 21474,
+      "speedup": 0.18659738273578838,
+      "gpu_faster": false
+    },
+    {
+      "num_qubits": 64,
+      "depth": 16,
+      "bond_dimension": 16,
+      "num_gates": 5632,
+      "gpu_time_ms": 142363,
+      "cpu_time_ms": 26436,
+      "speedup": 0.18569431664126212,
+      "gpu_faster": false
+    },
+    {
+      "num_qubits": 16,
+      "depth": 16,
+      "bond_dimension": 256,
+      "num_gates": 1408,
+      "gpu_time_ms": 26291,
+      "cpu_time_ms": 26267,
+      "speedup": 0.999087,
+      "gpu_faster": false
+    },
+    {
+      "num_qubits": 24,
+      "depth": 16,
+      "bond_dimension": 256,
+      "num_gates": 2112,
+      "gpu_time_ms": 153551,
+      "cpu_time_ms": 367640,
+      "speedup": 2.393967,
+      "gpu_faster": true
+    },
+    {
+      "num_qubits": 32,
+      "depth": 16,
+      "bond_dimension": 256,
+      "num_gates": 2816,
+      "gpu_time_ms": 379101,
+      "cpu_time_ms": 943552,
+      "speedup": 2.489127,
+      "gpu_faster": true
+    },
+    {
+      "num_qubits": 40,
+      "depth": 16,
+      "bond_dimension": 256,
+      "num_gates": 3520,
+      "gpu_time_ms": 645152,
+      "cpu_time_ms": 1681920,
+      "speedup": 2.606775,
+      "gpu_faster": true
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Experiment 3: Depth Scaling (qubits=[72,80,88,96], depth=[4,8,12,16,24,32,40,48,56,64], bond=32)
+# trial, num_qubits, num_gates, job_id, queue_time_ms, run_time_ms, depth, bond_dimension
+{"trial": 0, "num_qubits": 40, "depth": 4, "bond_dimension": 128, "num_gates": 880, "num_cx_gates": 240, "job_id": "RybHKlEiYk68STm9", "queue_time_ms": 161277, "run_time_ms": 115053, "shots": 1000}
+{"trial": 0, "num_qubits": 40, "depth": 8, "bond_dimension": 128, "num_gates": 1760, "num_cx_gates": 480, "job_id": "VF3qjvHCjlfmoVrX", "queue_time_ms": 200, "run_time_ms": 140600, "shots": 1000}
+{"trial": 0, "num_qubits": 40, "depth": 12, "bond_dimension": 128, "num_gates": 2640, "num_cx_gates": 720, "job_id": "vIbgJUjtXdzc1AOO", "queue_time_ms": 277, "run_time_ms": 188985, "shots": 1000}
+{"trial": 0, "num_qubits": 40, "depth": 16, "bond_dimension": 128, "num_gates": 3520, "num_cx_gates": 960, "job_id": "Rd8xVobiyK6emrjJ", "queue_time_ms": 282, "run_time_ms": 262430, "shots": 1000}
+{"trial": 0, "num_qubits": 40, "depth": 24, "bond_dimension": 128, "num_gates": 5280, "num_cx_gates": 1440, "job_id": "2PMTJY2iein6gqrK", "queue_time_ms": 277, "run_time_ms": 383776, "shots": 1000}
+{"trial": 0, "num_qubits": 40, "depth": 32, "bond_dimension": 128, "num_gates": 7040, "num_cx_gates": 1920, "job_id": "9AtGJKYP4kPgRu8C", "queue_time_ms": 355, "run_time_ms": 523391, "shots": 1000}
+{"trial": 0, "num_qubits": 40, "depth": 40, "bond_dimension": 128, "num_gates": 8800, "num_cx_gates": 2400, "job_id": "rNJU4DDoTQzYgMWT", "queue_time_ms": 421, "run_time_ms": 613514, "shots": 1000}
+{"trial": 0, "num_qubits": 40, "depth": 48, "bond_dimension": 128, "num_gates": 10560, "num_cx_gates": 2880, "job_id": "saTvHPeFOl4qFTIb", "queue_time_ms": 396, "run_time_ms": 737908, "shots": 1000}
+{"trial": 0, "num_qubits": 40, "depth": 56, "bond_dimension": 128, "num_gates": 12320, "num_cx_gates": 3360, "job_id": "8TWJFsmEAYI5RhD5", "queue_time_ms": 152749, "run_time_ms": 899884, "shots": 1000}
+{"trial": 0, "num_qubits": 40, "depth": 64, "bond_dimension": 128, "num_gates": 14080, "num_cx_gates": 3840, "job_id": "7CsSWNAvOXgSisIw", "queue_time_ms": 431, "run_time_ms": 999415, "shots": 1000}

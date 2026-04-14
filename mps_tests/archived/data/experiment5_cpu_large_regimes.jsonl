@@ -1,0 +1,11 @@
+# Experiment 5: CPU large-regime targeted sweep
+# Targets: R3�R6+ (su4_n_X2 > 300M)
+{"num_qubits": 40, "depth": 14, "bond_dimension": 256, "trial": 0, "error": "Job 9o3KjcdhFGfjrp00 finished with status: TERMINATED. Terminated since the run was taking longer than maximum of 6000 minutes allowed for mps.cpu jobs."}
+{"num_qubits": 40, "depth": 18, "bond_dimension": 256, "trial": 0, "error": "Job J00nSYXiPxkScMQE finished with status: TERMINATED. Terminated since the run was taking longer than maximum of 6000 minutes allowed for mps.cpu jobs."}
+{"num_qubits": 40, "depth": 22, "bond_dimension": 256, "trial": 0, "error": "Job VoO0dKFIAbMJqIOC finished with status: TERMINATED. Terminated since the run was taking longer than maximum of 6000 minutes allowed for mps.cpu jobs."}
+{"num_qubits": 60, "depth": 15, "bond_dimension": 256, "trial": 0, "error": "Job G771eyACwMApQhh1 finished with status: TERMINATED. Terminated since the run was taking longer than maximum of 6000 minutes allowed for mps.cpu jobs."}
+{"num_qubits": 60, "depth": 20, "bond_dimension": 256, "trial": 0, "error": "Job vo3ehExkKQVExqv5 finished with status: TERMINATED. Terminated since the run was taking longer than maximum of 6000 minutes allowed for mps.cpu jobs."}
+{"num_qubits": 60, "depth": 25, "bond_dimension": 256, "trial": 0, "error": "Job s6I6A0dAyAnqEzvb finished with status: TERMINATED. Terminated since the run was taking longer than maximum of 6000 minutes allowed for mps.cpu jobs."}
+{"num_qubits": 40, "depth": 12, "bond_dimension": 384, "trial": 0, "error": "Job ZuxcQECEdwe4otIP finished with status: TERMINATED. Terminated since the run was taking longer than maximum of 6000 minutes allowed for mps.cpu jobs."}
+{"num_qubits": 40, "depth": 16, "bond_dimension": 384, "trial": 0, "error": "Job KMB5fsSEhutTgS1a finished with status: TERMINATED. Terminated since the run was taking longer than maximum of 6000 minutes allowed for mps.cpu jobs."}
+{"num_qubits": 40, "depth": 20, "bond_dimension": 384, "trial": 0, "error": "Job Yt0IDAB2AjwRblYR finished with status: TERMINATED. Terminated since the run was taking longer than maximum of 6000 minutes allowed for mps.cpu jobs."}
