@@ -67,7 +67,12 @@ DELTA_TO_PAULIS = {
     7e-06:   291_693_307,
     6e-06:   390_125_351,
     5e-06:   549_853_786,
-    4.5e-06: 662_823_961,
+    4.5e-06: 670_049_692,
+    3e-06:   1_470_000_000,
+    2.9375e-06: 1_533_354_214,
+    2.90625e-06: 1_564_846_523,
+    2.8984375e-06: 1_572_933_629,
+    2.89453125e-06: 1_576_933_126,
 }
 
 # Exact reference value for ⟨Z_62⟩ on the 127-qubit kicked Ising model.
@@ -176,6 +181,8 @@ def delta_to_paulis(delta_arr):
 
 def pauli_label(n):
     """Pretty-print a Pauli count: 664 → '664', 2.2M → '2M', etc."""
+    if n >= 1e9:
+        return f"{n/1e9:.2f}B"
     if n >= 1e6:
         return f"{n/1e6:.0f}M"
     elif n >= 1e3:
@@ -194,15 +201,17 @@ def add_pauli_top_axis(ax_host):
     ax2.set_xscale("log")
     ax2.set_xlim(ax_host.get_xlim())
 
-    # Choose a readable subset of ticks
-    tick_deltas = [1e-2, 1e-3, 1e-4, 1e-5, 4.5e-6]
+    # Choose a readable subset of ticks.
+    # The last two are slightly offset from their exact deltas for visual spacing.
+    tick_deltas = [1e-2, 1e-3, 1e-4, 1e-5, 4.7e-6, 2.86e-6]
+    tick_labels = ["664", "33K", "2M", "149M", "670M", "1.58B"]
     # Only keep those inside the current xlim
     lo, hi = sorted(ax_host.get_xlim())
     tick_deltas = [d for d in tick_deltas if lo * 0.9 <= d <= hi * 1.1]
 
-    ax2.set_xticks(tick_deltas)
-    ax2.set_xticklabels([pauli_label(delta_to_paulis(d)[0]) for d in tick_deltas],
-                        fontsize=9)
+    paired = [(d, lab) for d, lab in zip(tick_deltas, tick_labels) if lo * 0.9 <= d <= hi * 1.1]
+    ax2.set_xticks([d for d, _ in paired])
+    ax2.set_xticklabels([lab for _, lab in paired], fontsize=9)
     ax2.set_xlabel("Max Pauli Terms", fontsize=11, labelpad=6)
     ax2.tick_params(direction="in", length=4)
     ax2.minorticks_off()

@@ -43,6 +43,8 @@ CPU_FILE = os.path.join(DATA_DIR, "bond_scaling_cpu.jsonl")
 GPU_FILE = os.path.join(DATA_DIR, "bond_scaling_gpu.jsonl")
 
 OUTPUT_PNG = os.path.join(PLOT_DIR, "fig2_bond_dimension_scaling.png")
+OUTPUT_PNG_3SIGMA = os.path.join(PLOT_DIR, "fig2_bond_dimension_scaling_3sigma.png")
+OUTPUT_PNG_5SIGMA = os.path.join(PLOT_DIR, "fig2_bond_dimension_scaling_5sigma.png")
 
 CPU_COLOR = "#1f77b4"
 GPU_COLOR = "#d62728"
@@ -90,6 +92,7 @@ def aggregate_by_chi(rows, time_field="run_time_ms"):
         vals = np.asarray(sorted(by_chi[chi]), dtype=float)
         n = int(vals.size)
         med = float(np.median(vals))
+        std = float(np.std(vals, ddof=1)) if n >= 2 else 0.0
         if n >= 3:
             q25 = float(np.percentile(vals, 25))
             q75 = float(np.percentile(vals, 75))
@@ -98,7 +101,7 @@ def aggregate_by_chi(rows, time_field="run_time_ms"):
             q25 = q75 = med
             has_iqr = False
         result[chi] = dict(
-            median=med, q25=q25, q75=q75, n_trials=n, has_iqr=has_iqr)
+            median=med, q25=q25, q75=q75, std=std, n_trials=n, has_iqr=has_iqr)
     return result
 
 
@@ -139,29 +142,9 @@ def power_law(x, a, alpha):
 # Main
 # ---------------------------------------------------------------------------
 
-def main():
-    cpu_agg = aggregate_by_chi(load_jsonl(CPU_FILE))
-    gpu_agg = aggregate_by_chi(load_jsonl(GPU_FILE))
-
-    print(f"CPU chi: {sorted(cpu_agg)}")
-    print(f"GPU chi: {sorted(gpu_agg)}")
-
-    # -- Fits ---------------------------------------------------------------
-    def _fit(agg, label):
-        chis = np.array(sorted(agg), dtype=float)
-        meds = np.array([agg[c]["median"] for c in chis])
-        iqrs = np.array([agg[c]["q75"] - agg[c]["q25"] for c in chis])
-        mask = np.array([agg[c]["has_iqr"] for c in chis], dtype=bool)
-        a, alpha, alpha_err = fit_power_law(chis, meds, iqrs, mask)
-        if a is not None:
-            print(f"  {label}: T = {a:.4g} * chi^{alpha:.3f}  +/-{alpha_err:.3f}")
-        return a, alpha, alpha_err
-
-    print("\n-- Power-law fits --")
-    cpu_a, cpu_alpha, cpu_ae = _fit(cpu_agg, "CPU")
-    gpu_a, gpu_alpha, gpu_ae = _fit(gpu_agg, "GPU")
-    if cpu_alpha and gpu_alpha:
-        print(f"  GPU advantage exponent: {cpu_alpha - gpu_alpha:.3f}")
+def render_plot(cpu_agg, gpu_agg, cpu_fit, gpu_fit, sigma_mult, output_png):
+    cpu_a, cpu_alpha, cpu_ae = cpu_fit
+    gpu_a, gpu_alpha, gpu_ae = gpu_fit
 
     # -- Figure -------------------------------------------------------------
     fig, ax = plt.subplots(figsize=(9, 6.5))
@@ -171,7 +154,15 @@ def main():
             return
         chis = np.array(sorted(agg), dtype=float)
         meds = np.array([agg[c]["median"] for c in chis])
-        ntr  = [agg[c]["n_trials"] for c in chis]
+        stds = np.array([agg[c]["std"] for c in chis])
+        ntr = [agg[c]["n_trials"] for c in chis]
+        yerr = sigma_mult * stds
+
+        # Draw k*sigma vertical error bars first, then markers on top.
+        ax.errorbar(
+            chis, meds, yerr=yerr, fmt="none", ecolor=color,
+            elinewidth=1.3, capsize=3.5, capthick=1.1, alpha=0.55, zorder=4
+        )
         ax.plot(
             chis, meds,
             linestyle="None", marker=marker, color=color, markersize=ms,
@@ -250,7 +241,7 @@ def main():
 
     depth_val = 10  # all current data is d=10
     ax.set_title(
-        f"Bond dimension scaling  ($n=40$, $d={depth_val}$)",
+        f"Bond dimension scaling  ($n=40$, $d={depth_val}$)  [{sigma_mult}$\\sigma$ error bars]",
         fontsize=12, pad=10)
 
     ax.xaxis.set_major_formatter(ticker.ScalarFormatter())
@@ -269,8 +260,49 @@ def main():
               framealpha=0.92, edgecolor="#ccc")
 
     plt.tight_layout()
-    plt.savefig(OUTPUT_PNG, dpi=200, bbox_inches="tight", pad_inches=0.22)
-    print(f"\nSaved:\n  {OUTPUT_PNG}")
+    plt.savefig(output_png, dpi=200, bbox_inches="tight", pad_inches=0.22)
+    plt.close(fig)
+    print(f"Saved:\n  {output_png}")
+
+
+def main():
+    cpu_agg = aggregate_by_chi(load_jsonl(CPU_FILE))
+    gpu_agg = aggregate_by_chi(load_jsonl(GPU_FILE))
+
+    print(f"CPU chi: {sorted(cpu_agg)}")
+    print(f"GPU chi: {sorted(gpu_agg)}")
+
+    # -- Fits ---------------------------------------------------------------
+    def _fit(agg, label):
+        chis = np.array(sorted(agg), dtype=float)
+        meds = np.array([agg[c]["median"] for c in chis])
+        iqrs = np.array([agg[c]["q75"] - agg[c]["q25"] for c in chis])
+        mask = np.array([agg[c]["has_iqr"] for c in chis], dtype=bool)
+        a, alpha, alpha_err = fit_power_law(chis, meds, iqrs, mask)
+        if a is not None:
+            print(f"  {label}: T = {a:.4g} * chi^{alpha:.3f}  +/-{alpha_err:.3f}")
+        return a, alpha, alpha_err
+
+    print("\n-- Power-law fits --")
+    cpu_a, cpu_alpha, cpu_ae = _fit(cpu_agg, "CPU")
+    gpu_a, gpu_alpha, gpu_ae = _fit(gpu_agg, "GPU")
+    if cpu_alpha and gpu_alpha:
+        print(f"  GPU advantage exponent: {cpu_alpha - gpu_alpha:.3f}")
+
+    render_plot(
+        cpu_agg, gpu_agg,
+        cpu_fit=(cpu_a, cpu_alpha, cpu_ae),
+        gpu_fit=(gpu_a, gpu_alpha, gpu_ae),
+        sigma_mult=3,
+        output_png=OUTPUT_PNG_3SIGMA,
+    )
+    render_plot(
+        cpu_agg, gpu_agg,
+        cpu_fit=(cpu_a, cpu_alpha, cpu_ae),
+        gpu_fit=(gpu_a, gpu_alpha, gpu_ae),
+        sigma_mult=5,
+        output_png=OUTPUT_PNG_5SIGMA,
+    )
 
     # -- Summary table ------------------------------------------------------
     for tag, agg in [("CPU", cpu_agg), ("GPU", gpu_agg)]:
