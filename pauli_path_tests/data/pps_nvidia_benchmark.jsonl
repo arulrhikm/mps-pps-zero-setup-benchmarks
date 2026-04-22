@@ -1,4 +1,4 @@
-# NVIDIA points derived from PPS-Qiskit mean runtime / optimized GPU mean runtime
-{"delta": 0.0001, "qiskit_time_s_mean": 259.31401126000566, "nvidia_time_s_mean": 1.7, "speedup_qiskit_over_nvidia": 152.53765368235628}
-{"delta": 5e-05, "qiskit_time_s_mean": 1011.4380063399964, "nvidia_time_s_mean": 2.0, "speedup_qiskit_over_nvidia": 505.7190031699982}
-{"delta": 2.5e-05, "qiskit_time_s_mean": 5644.726956679998, "nvidia_time_s_mean": 3.9, "speedup_qiskit_over_nvidia": 1447.3658863282046}
+# NVIDIA points estimated from chart speedups (56,108,177) and PPS-Qiskit means
+{"delta": 0.0001, "qiskit_time_s_mean": 259.31401126000566, "nvidia_time_s_mean_estimated": 4.630607343928673, "speedup_qiskit_over_nvidia": 56.0, "source": "chart_bars_56_108_177"}
+{"delta": 5e-05, "qiskit_time_s_mean": 1011.4380063399964, "nvidia_time_s_mean_estimated": 9.365166725370337, "speedup_qiskit_over_nvidia": 108.0, "source": "chart_bars_56_108_177"}
+{"delta": 2.5e-05, "qiskit_time_s_mean": 5644.726956679998, "nvidia_time_s_mean_estimated": 31.891112749604506, "speedup_qiskit_over_nvidia": 177.0, "source": "chart_bars_56_108_177"}
