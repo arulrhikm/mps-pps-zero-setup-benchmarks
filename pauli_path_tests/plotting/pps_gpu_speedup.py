@@ -11,8 +11,11 @@ Output:  pps_gpu_speedup.{pdf,png}
 """
 
 import numpy as np
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pps_plot_utils as U
+from pathlib import Path
 
 # ── Load ───────────────────────────────────────────────────────────────────
 U.apply_style()
@@ -47,6 +50,42 @@ for label in ("PPS-CPU", "PPS-Qiskit", "PauliPropagation.jl"):
         "np": np.array(np_vals),
         "speedup": np.array(speedups),
     }
+
+
+def load_nvidia_speedup_points() -> dict[str, np.ndarray] | None:
+    """
+    Load precomputed NVIDIA speedup points from data/pps_nvidia_benchmark.jsonl.
+    Expected row fields:
+      - delta
+      - speedup_qiskit_over_nvidia
+    """
+    fp = Path(U.DATA_DIR) / "pps_nvidia_benchmark.jsonl"
+    if not fp.exists():
+        return None
+    rows = U.load_jsonl(fp)
+    deltas = []
+    speedups = []
+    for r in rows:
+        if "error" in r:
+            continue
+        d = r.get("delta")
+        sp = r.get("speedup_qiskit_over_nvidia")
+        if d is None or sp is None:
+            continue
+        deltas.append(float(d))
+        speedups.append(float(sp))
+    if not deltas:
+        return None
+    deltas_arr = np.array(deltas, dtype=float)
+    speedups_arr = np.array(speedups, dtype=float)
+    order = np.argsort(deltas_arr)[::-1]
+    return {
+        "np": U.delta_to_paulis(deltas_arr[order]),
+        "speedup": speedups_arr[order],
+    }
+
+
+nvidia_comp = load_nvidia_speedup_points()
 
 # ── Figure ─────────────────────────────────────────────────────────────────
 fig, ax = plt.subplots(figsize=(10, 7.5))
@@ -86,6 +125,22 @@ for label, comp in comparisons.items():
         arrowprops=dict(arrowstyle="-|>", color=colors.get(label, "gray"),
                         lw=1, mutation_scale=10),
         bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.7),
+    )
+
+# Optional NVIDIA measured points (Qiskit/NVIDIA)
+if nvidia_comp is not None:
+    ax.plot(
+        nvidia_comp["np"],
+        nvidia_comp["speedup"],
+        marker="o",
+        linestyle="--",
+        linewidth=1.6,
+        color="#76B900",
+        markeredgecolor="white",
+        markeredgewidth=0.5,
+        markersize=7,
+        label="vs NVIDIA PPS",
+        zorder=4,
     )
 
 ax.axhline(1, color="0.6", ls=":", lw=1, zorder=0)
