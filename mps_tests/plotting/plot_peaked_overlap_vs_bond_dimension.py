@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """
-Plot overlap vs bond dimension for peaked-circuit results (CPU + GPU).
+Plot runtime vs bond dimension for peaked-circuit results (CPU + GPU),
+with a top x-axis showing median overlap percentages by bond dimension.
 
 Reads JSONL files from:
-  mps_tests/data/peaked-circuit-results/
+  mps_tests/data/peaked-circuits-results/
 
-By default uses dominant_overlap_percent as "overlap".
+By default uses dominant_overlap_percent as "overlap" metadata for the top axis.
 Color style follows the statevector CPU/GPU convention:
   - CPU: shades of blue
   - GPU: shades of red
 
 Outputs:
-  - Clean summary plot (median + IQR + min/max whiskers)
+  - Clean runtime summary plot (median + IQR + min/max whiskers)
   - Optional simple fit overlay (linear fit in log2(chi) space)
 """
 
@@ -33,7 +34,7 @@ from matplotlib.lines import Line2D
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 MPS_TESTS_DIR = os.path.dirname(SCRIPT_DIR)
-RESULTS_DIR = os.path.join(MPS_TESTS_DIR, "data", "peaked-circuit-results")
+RESULTS_DIR = os.path.join(MPS_TESTS_DIR, "data", "peaked-circuits-results")
 PLOTS_DIR = os.path.join(MPS_TESTS_DIR, "plots")
 DEFAULT_OUTPUT = os.path.join(PLOTS_DIR, "fig_peaked_overlap_vs_bond_dimension.png")
 DEFAULT_OUTPUT_FIT = os.path.join(PLOTS_DIR, "fig_peaked_overlap_vs_bond_dimension_fit.png")
@@ -49,13 +50,14 @@ def _rzz_key(circuit_key: str) -> tuple[int, str]:
     return 10**9, circuit_key
 
 
-def _load_rows(path: str, overlap_field: str) -> dict[str, dict[int, float]]:
+def _load_rows(path: str, overlap_field: str) -> dict[str, dict[int, dict[str, float]]]:
     """
     Return:
-      circuit_key -> {bond_dimension -> overlap}
-    using median overlap for duplicate bond_dimension rows.
+      circuit_key -> {bond_dimension -> {"overlap": x, "runtime_s": y}}
+    using medians for duplicate bond_dimension rows.
     """
-    raw: dict[str, dict[int, list[float]]] = defaultdict(lambda: defaultdict(list))
+    raw_ov: dict[str, dict[int, list[float]]] = defaultdict(lambda: defaultdict(list))
+    raw_rt: dict[str, dict[int, list[float]]] = defaultdict(lambda: defaultdict(list))
 
     with open(path, encoding="utf-8") as f:
         for line in f:
@@ -76,19 +78,23 @@ def _load_rows(path: str, overlap_field: str) -> dict[str, dict[int, float]]:
             bond_dim = r.get("bond_dimension")
             if not circuit_key or not isinstance(bond_dim, int):
                 continue
-            raw[circuit_key][bond_dim].append(float(r[overlap_field]))
+            raw_ov[circuit_key][bond_dim].append(float(r[overlap_field]))
+            raw_rt[circuit_key][bond_dim].append(float(r["run_time_ms"]) / 1000.0)
 
-    out: dict[str, dict[int, float]] = {}
-    for circuit_key, by_bd in raw.items():
+    out: dict[str, dict[int, dict[str, float]]] = {}
+    for circuit_key, by_bd in raw_ov.items():
         out[circuit_key] = {}
         for bd, vals in by_bd.items():
-            out[circuit_key][bd] = float(np.median(np.asarray(vals, dtype=float)))
+            out[circuit_key][bd] = {
+                "overlap": float(np.median(np.asarray(vals, dtype=float))),
+                "runtime_s": float(np.median(np.asarray(raw_rt[circuit_key][bd], dtype=float))),
+            }
     return out
 
 
-def _read_device_files(results_dir: str, overlap_field: str) -> tuple[dict[str, dict[int, float]], dict[str, dict[int, float]]]:
-    cpu_data: dict[str, dict[int, float]] = {}
-    gpu_data: dict[str, dict[int, float]] = {}
+def _read_device_files(results_dir: str, overlap_field: str) -> tuple[dict[str, dict[int, dict[str, float]]], dict[str, dict[int, dict[str, float]]]]:
+    cpu_data: dict[str, dict[int, dict[str, float]]] = {}
+    gpu_data: dict[str, dict[int, dict[str, float]]] = {}
 
     if not os.path.exists(results_dir):
         return cpu_data, gpu_data
@@ -106,25 +112,68 @@ def _read_device_files(results_dir: str, overlap_field: str) -> tuple[dict[str, 
     return cpu_data, gpu_data
 
 
-def _aggregate_by_bond(data: dict[str, dict[int, float]]) -> dict[int, list[float]]:
+def _aggregate_by_bond_runtime(data: dict[str, dict[int, dict[str, float]]]) -> dict[int, list[float]]:
     out: dict[int, list[float]] = defaultdict(list)
     for by_bd in data.values():
-        for bd, ov in by_bd.items():
-            out[int(bd)].append(float(ov))
+        for bd, vals in by_bd.items():
+            out[int(bd)].append(float(vals["runtime_s"]))
+    return out
+
+
+def _aggregate_by_bond_overlap(data: dict[str, dict[int, dict[str, float]]]) -> dict[int, list[float]]:
+    out: dict[int, list[float]] = defaultdict(list)
+    for by_bd in data.values():
+        for bd, vals in by_bd.items():
+            out[int(bd)].append(float(vals["overlap"]))
+    return out
+
+
+def _apply_post_saturation_fill(
+    data: dict[str, dict[int, dict[str, float]]],
+    *,
+    saturation_value: float = 100.0,
+    tol: float = 1e-9,
+) -> dict[str, dict[int, dict[str, float]]]:
+    """
+    If a circuit reaches saturation (overlap ~= 100) at bond dimension b_sat,
+    treat all *missing* larger bond dimensions as saturated too.
+
+    This addresses early-saturating circuits that stop providing additional points
+    at higher bond dimensions due to run interruptions, while preserving measured
+    values where present.
+    """
+    if not data:
+        return data
+
+    global_bds = sorted({bd for by_bd in data.values() for bd in by_bd.keys()})
+    if not global_bds:
+        return data
+
+    out: dict[str, dict[int, dict[str, float]]] = {}
+    for circuit_key, by_bd in data.items():
+        filled = dict(by_bd)
+        sat_bds = sorted(bd for bd, vals in by_bd.items() if vals["overlap"] >= saturation_value - tol)
+        if sat_bds:
+            b_sat = sat_bds[0]
+            for bd in global_bds:
+                if bd > b_sat and bd not in filled:
+                    # Fill missing overlap as saturated while preserving runtime as missing.
+                    filled[bd] = {"overlap": saturation_value, "runtime_s": np.nan}
+        out[circuit_key] = filled
     return out
 
 
 def _plot_clean_device(
     ax,
-    data: dict[str, dict[int, float]],
+    data: dict[str, dict[int, dict[str, float]]],
     *,
     line_color: str,
     faint_color: str,
     label: str,
 ) -> int:
     """
-    Publication style:
-      - median line
+    Runtime publication style:
+      - median runtime line
       - IQR shaded band (Q25-Q75)
       - min/max whiskers
     """
@@ -132,7 +181,7 @@ def _plot_clean_device(
         return 0
 
     keys = sorted(data.keys(), key=_rzz_key)
-    agg = _aggregate_by_bond(data)
+    agg = _aggregate_by_bond_runtime(data)
     bds = sorted(agg.keys())
     med = np.array([np.median(agg[b]) for b in bds], dtype=float)
     q25 = np.array([np.percentile(agg[b], 25) for b in bds], dtype=float)
@@ -184,13 +233,31 @@ def _plot_clean_device(
     return len(keys)
 
 
-def _median_series(data: dict[str, dict[int, float]]) -> tuple[np.ndarray, np.ndarray]:
-    agg = _aggregate_by_bond(data)
+def _median_series_runtime(data: dict[str, dict[int, dict[str, float]]]) -> tuple[np.ndarray, np.ndarray]:
+    agg = _aggregate_by_bond_runtime(data)
     if not agg:
         return np.array([], dtype=float), np.array([], dtype=float)
     bds = np.array(sorted(agg.keys()), dtype=float)
     meds = np.array([np.median(agg[int(b)]) for b in bds], dtype=float)
     return bds, meds
+
+
+def _median_overlap_labels(
+    cpu_data: dict[str, dict[int, dict[str, float]]],
+    gpu_data: dict[str, dict[int, dict[str, float]]],
+    ticks: list[int],
+) -> list[str]:
+    cpu_agg = _aggregate_by_bond_overlap(cpu_data)
+    gpu_agg = _aggregate_by_bond_overlap(gpu_data)
+    labels: list[str] = []
+    for bd in ticks:
+        parts = []
+        if bd in cpu_agg and len(cpu_agg[bd]) > 0:
+            parts.append(f"C:{np.median(cpu_agg[bd]):.1f}%")
+        if bd in gpu_agg and len(gpu_agg[bd]) > 0:
+            parts.append(f"G:{np.median(gpu_agg[bd]):.1f}%")
+        labels.append(" / ".join(parts) if parts else "")
+    return labels
 
 
 def _fit_log2_linear(x: np.ndarray, y: np.ndarray) -> tuple[float, float] | None:
@@ -234,6 +301,8 @@ def main() -> None:
     args = parser.parse_args()
 
     cpu_data, gpu_data = _read_device_files(os.path.abspath(args.results_dir), args.overlap_field)
+    cpu_data = _apply_post_saturation_fill(cpu_data)
+    gpu_data = _apply_post_saturation_fill(gpu_data)
 
     os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
     fig, ax = plt.subplots(figsize=(11.5, 6.8))
@@ -253,14 +322,32 @@ def main() -> None:
         label="GPU median (IQR shaded + min/max)",
     )
 
+    y_label_map = {
+        "dominant_overlap_percent": "Overlap (%)",
+        "weighted_overlap_percent": "Weighted Overlap (%)",
+        "target_hit_rate_percent": "Target Hit Rate (%)",
+    }
+    y_label = y_label_map.get(args.overlap_field, f"{args.overlap_field} (%)")
+
     ax.set_xlabel("Bond Dimension", fontsize=12)
-    ax.set_ylabel(f"{args.overlap_field} (%)", fontsize=12)
-    ax.set_title("Peaked Circuits: Overlap vs Bond Dimension", fontsize=14)
+    ax.set_ylabel("Runtime (s)", fontsize=12)
+    ax.set_title("Peaked Circuits: Runtime vs Bond Dimension", fontsize=14)
     ax.grid(True, which="both", alpha=0.30, linestyle="--")
-    ax.set_ylim(40, 101)
+    ax.set_yscale("log")
     ax.set_xscale("log", base=2)
-    ax.set_xticks([4, 8, 16, 32, 64, 128, 256, 512, 1024])
+    xticks = sorted({*(_aggregate_by_bond_runtime(cpu_data).keys()), *(_aggregate_by_bond_runtime(gpu_data).keys())})
+    if not xticks:
+        xticks = [4, 8, 16, 32, 64, 128, 256, 512, 1024, 1536]
+    ax.set_xticks(xticks)
     ax.get_xaxis().set_major_formatter(plt.ScalarFormatter())
+
+    # Top x-axis: show median overlap percentages at each bond dimension.
+    ax_top = ax.twiny()
+    ax_top.set_xscale("log", base=2)
+    ax_top.set_xlim(ax.get_xlim())
+    ax_top.set_xticks(xticks)
+    ax_top.set_xticklabels(_median_overlap_labels(cpu_data, gpu_data, xticks), fontsize=8)
+    ax_top.set_xlabel("Median Overlap (%)   [C=CPU, G=GPU]", fontsize=10, labelpad=8)
 
     if n_cpu + n_gpu > 0:
         handles = [
@@ -304,8 +391,8 @@ def main() -> None:
             label="GPU median (IQR shaded + min/max)",
         )
 
-        cpu_x, cpu_y = _median_series(cpu_data)
-        gpu_x, gpu_y = _median_series(gpu_data)
+        cpu_x, cpu_y = _median_series_runtime(cpu_data)
+        gpu_x, gpu_y = _median_series_runtime(gpu_data)
         cpu_fit = _fit_log2_linear(cpu_x, cpu_y)
         gpu_fit = _fit_log2_linear(gpu_x, gpu_y)
 
@@ -320,7 +407,7 @@ def main() -> None:
                 linewidth=2.1,
                 color=CPU_COLOR,
                 alpha=0.95,
-                label=rf"CPU fit: overlap={m:.2f}·log2($\chi$)+{b:.1f}",
+                label=rf"CPU fit: runtime={m:.2f}·log2($\chi$)+{b:.1f}",
             )
         if gpu_fit is not None:
             m, b = gpu_fit
@@ -333,16 +420,16 @@ def main() -> None:
                 linewidth=2.1,
                 color=GPU_COLOR,
                 alpha=0.95,
-                label=rf"GPU fit: overlap={m:.2f}·log2($\chi$)+{b:.1f}",
+                label=rf"GPU fit: runtime={m:.2f}·log2($\chi$)+{b:.1f}",
             )
 
         ax_fit.set_xlabel("Bond Dimension", fontsize=12)
-        ax_fit.set_ylabel(f"{args.overlap_field} (%)", fontsize=12)
-        ax_fit.set_title("Peaked Circuits: Overlap vs Bond Dimension (with simple fit)", fontsize=14)
+        ax_fit.set_ylabel("Runtime (s)", fontsize=12)
+        ax_fit.set_title("Peaked Circuits: Runtime vs Bond Dimension (with simple fit)", fontsize=14)
         ax_fit.grid(True, which="both", alpha=0.30, linestyle="--")
-        ax_fit.set_ylim(40, 101)
+        ax_fit.set_yscale("log")
         ax_fit.set_xscale("log", base=2)
-        ax_fit.set_xticks([4, 8, 16, 32, 64, 128, 256, 512, 1024])
+        ax_fit.set_xticks(xticks)
         ax_fit.get_xaxis().set_major_formatter(plt.ScalarFormatter())
         ax_fit.legend(loc="lower right", fontsize=8.8, framealpha=0.94)
         plt.tight_layout()

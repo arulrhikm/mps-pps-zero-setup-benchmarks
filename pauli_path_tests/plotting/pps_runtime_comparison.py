@@ -11,19 +11,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pps_plot_utils as U
 
-
-def _thin_dense_gpu_tail(d: dict) -> dict:
-    """
-    Keep all points except the ultra-dense low-delta tail, where we keep
-    representative anchors to reduce marker clutter.
-    """
-    delta = d["delta"]
-    # Remove points in the mid-band (149M .. 670M) to reduce clutter.
-    drop_mid_band = {9e-06, 8e-06, 7e-06, 6e-06, 5e-06}
-    keep_tail = {4.5e-06, 2.89453125e-06}
-    mask = (~np.isin(delta, list(drop_mid_band))) & ((delta >= 1e-05) | np.isin(delta, list(keep_tail)))
-    return {k: np.asarray(v)[mask] for k, v in d.items()}
-
 # ── Load ───────────────────────────────────────────────────────────────────
 U.apply_style()
 print("Loading benchmarks...")
@@ -43,12 +30,14 @@ if optimized_gpu_fp.exists():
 # ── Figure ─────────────────────────────────────────────────────────────────
 fig, ax = plt.subplots(figsize=(8.5, 5.5), layout="constrained")
 
+plot_data = {}
 for label, cfg in U.BACKENDS.items():
     if label not in data:
         continue
     d = data[label]
     if label == "PPS-GPU":
-        d = _thin_dense_gpu_tail(d)
+        d = U.thin_dense_gpu_tail(d)
+    plot_data[label] = d
     ax.plot(
         d["delta"], d["time_s_mean"],
         marker=cfg["marker"],
@@ -65,10 +54,12 @@ for label, cfg in U.BACKENDS.items():
 ax.set_yscale("log")
 ax.set_xscale("log")
 ax.invert_xaxis()
+if plot_data:
+    ax.set_xlim(*U.inverted_delta_xlim(plot_data))
 ax.set_ylabel("Runtime  (seconds)")
 ax.set_xlabel(r"Truncation threshold  $\delta$")
 ax.set_title("Runtime vs truncation threshold",
-             loc="center", fontweight="bold", pad=35)
+             loc="center", fontweight="bold", pad=10)
 ax.grid(True, which="major", ls="--", alpha=0.35)
 ax.grid(True, which="minor", ls=":", alpha=0.15)
 
@@ -77,7 +68,10 @@ by_label = dict(zip(labels, handles))
 ax.legend(by_label.values(), by_label.keys(), loc="upper left")
 
 # Secondary top axis — Pauli counts
-ax_p = U.add_pauli_top_axis(ax)
+ax_p = U.add_pauli_top_axis(
+    ax,
+    U.unique_deltas_from_plot_data(plot_data) if plot_data else None,
+)
 
 # ── Shade GPU-only regime ─────────────────────────────────────────────────
 if "PPS-GPU" in data:

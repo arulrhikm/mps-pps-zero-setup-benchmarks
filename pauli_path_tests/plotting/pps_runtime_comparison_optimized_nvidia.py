@@ -62,12 +62,13 @@ print("Loading benchmarks...")
 data = U.load_all_backends()
 
 optimized_gpu_fp = U.DATA_DIR / "pps_gpu_optimized_benchmark.jsonl"
+mi300x_label = "PPS-GPU AMD MI300X (BlueQubit)"
 if optimized_gpu_fp.exists():
     optimized_gpu_raw = U.load_jsonl(optimized_gpu_fp)
-    data["PPS-GPU"] = U.aggregate(optimized_gpu_raw)
+    data[mi300x_label] = U.aggregate(optimized_gpu_raw)
     print(
-        "  [ok]   PPS-GPU (optimized)      "
-        f"{len(data['PPS-GPU']['delta']):2d} delta-values  "
+        "  [ok]   PPS-GPU AMD MI300X       "
+        f"{len(data[mi300x_label]['delta']):2d} delta-values  "
         f"({len(optimized_gpu_raw)} records)"
     )
 
@@ -82,37 +83,46 @@ print(
 # ── Figure ─────────────────────────────────────────────────────────────────
 fig, ax = plt.subplots(figsize=(8.5, 5.5), layout="constrained")
 
-for label, cfg in U.BACKENDS.items():
+series_cfg = [
+    ("PPS-GPU", {"label": "PPS-GPU NVIDIA H100 (BlueQubit)", "marker": "o", "color": "#2563EB", "zorder": 5}),
+    (mi300x_label, {"label": mi300x_label, "marker": "s", "color": "#DC2626", "zorder": 5}),
+    ("PPS-CPU", {"label": "PPS-CPU (BlueQubit)", "marker": "o", "color": "#EA580C", "zorder": 4}),
+    ("PPS-Qiskit", {"label": "PPS-Qiskit", "marker": "^", "color": "#16A34A", "zorder": 3}),
+    ("PauliPropagation.jl", {"label": "PauliPropagation.jl", "marker": "D", "color": "#7C3AED", "zorder": 2}),
+]
+
+for label, cfg in series_cfg:
     if label not in data:
         continue
     d = data[label]
-    if label == "PPS-GPU":
+    if label in {"PPS-GPU", mi300x_label}:
         d = _thin_dense_gpu_tail(d)
     ax.plot(
         d["delta"],
         d["time_s_mean"],
-        marker=cfg["marker"],
+        marker=cfg.get("marker", "o"),
         linestyle="-",
         linewidth=1.6,
-        color=cfg["color"],
+        color=cfg.get("color", "#333333"),
         markeredgecolor="white",
         markeredgewidth=0.6,
         markersize=7,
         label=cfg.get("label", label),
-        zorder=cfg["zorder"],
+        zorder=cfg.get("zorder", 1),
     )
 
 # NVIDIA (three measured points only)
 ax.plot(
     nvidia_series["delta"],
     nvidia_series["time_s_mean"],
-    marker="s",
-    linestyle="None",
-    color="#76B900",
+    marker="D",
+    linestyle="-",
+    linewidth=1.2,
+    color="#111111",
     markeredgecolor="white",
     markeredgewidth=0.6,
-    markersize=8,
-    label="NVIDIA PPS",
+    markersize=7,
+    label="PPS (NVIDIA)",
     zorder=5,
 )
 
@@ -136,16 +146,16 @@ ax.legend(by_label.values(), by_label.keys(), loc="upper left")
 
 ax_top = U.add_pauli_top_axis(ax)
 
-if "PPS-GPU" in data:
-    gpu_min = data["PPS-GPU"]["delta"].min()
-    other_mins = [data[l]["delta"].min() for l in data if l != "PPS-GPU"]
+if mi300x_label in data:
+    gpu_min = data[mi300x_label]["delta"].min()
+    other_mins = [data[l]["delta"].min() for l in data if l != mi300x_label]
     cpu_boundary = min(other_mins) if other_mins else gpu_min
     if gpu_min < cpu_boundary:
         ax.axvspan(
             gpu_min,
             cpu_boundary,
             alpha=0.06,
-            color=U.BACKENDS["PPS-GPU"]["color"],
+            color="#2563EB",
             zorder=0,
         )
 

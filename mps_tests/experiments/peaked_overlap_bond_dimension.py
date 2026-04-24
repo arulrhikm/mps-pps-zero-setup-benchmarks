@@ -8,13 +8,15 @@ Required arguments:
       --rzz-gates <int>   (recommended)
       --input-circuit <path under mps_tests/input-peaked-circuits>
 
-Default metric behavior is many-shot based:
-  - dominant_overlap_percent: overlap of most frequent sampled bitstring
-  - weighted_overlap_percent: expected overlap over full counts distribution
-  - target_hit_rate_percent: probability of exact target bitstring
+Default metric behavior uses the notebook's "MPS marginal attack" strategy:
+  - Run with pauli_sum over local-Z observables.
+  - Convert each local <Z_i> to bit i via sign (<0 -> 1, >=0 -> 0).
+  - Compare inferred bitstring vs target bitstring for overlap.
+
+This script uses one MPS sample/run per bond dimension by default (shots=1).
 
 Results are written to:
-  mps_tests/data/peaked-circuit-results/{CPU|GPU}_{circuit_name}.jsonl
+  mps_tests/data/peaked-circuits-results/{CPU|GPU}_peaked_overlap_bond_dimension.jsonl
 """
 
 from __future__ import annotations
@@ -33,11 +35,12 @@ os.environ["BLUEQUBIT_MAIN_ENDPOINT"] = "https://dev.app.bluequbit.io/api/v1"
 SCRIPT_DIR = Path(__file__).resolve().parent
 MPS_TESTS_ROOT = SCRIPT_DIR.parent
 INPUT_PEAKED_DIR = MPS_TESTS_ROOT / "input-peaked-circuits"
-RESULTS_DIR = MPS_TESTS_ROOT / "data" / "peaked-circuit-results"
+RESULTS_DIR = MPS_TESTS_ROOT / "data" / "peaked-circuits-results"
 
-BOND_DIMS = [4, 8, 16, 32, 64, 128, 256, 512, 1024]
-NUM_TRIALS = 1
-SHOTS = 2048
+BOND_DIMS_CPU = [4, 8, 16, 32, 64, 128, 256, 512, 1024]
+BOND_DIMS_GPU = [4, 8, 16, 32, 64, 128, 256, 512, 1024, 1536]
+NUM_TRIALS = 5
+SHOTS = 1
 
 
 def parse_target_from_filename(filename: str) -> str | None:
@@ -55,14 +58,6 @@ def parse_swept_qasm_filename(filename: str) -> dict:
         meta["filename_rzz_count"] = int(m.group(1))
         meta["filename_cz_count"] = int(m.group(2))
     return meta
-
-
-def ensure_measurements(qc: QuantumCircuit) -> QuantumCircuit:
-    if any(ins.operation.name == "measure" for ins in qc.data):
-        return qc
-    c = qc.copy()
-    c.measure_all()
-    return c
 
 
 def circuit_metrics(qc: QuantumCircuit) -> tuple[int, int, int, int]:
@@ -87,43 +82,37 @@ def overlap_percent(bits: str, target: str, expected_bits: int) -> float:
     return 100.0 * matches / expected_bits
 
 
-def result_to_counts(run_obj, bq) -> dict[str, int]:
-    # Some SDK versions return JobResult directly from run(asynchronous=False)
-    if hasattr(run_obj, "get_counts") and callable(run_obj.get_counts):
-        c = run_obj.get_counts()
-        if isinstance(c, dict):
-            return c
-    if hasattr(run_obj, "counts") and isinstance(run_obj.counts, dict):
-        return run_obj.counts
+def result_to_local_z_expectations(run_obj, bq) -> list[float]:
+    """Extract local-Z expectation values (pauli_sum result) from run object."""
+    if hasattr(run_obj, "expectation_value"):
+        ev = getattr(run_obj, "expectation_value")
+        if isinstance(ev, list):
+            return [float(x) for x in ev]
 
-    # Some return Job and need .result()
     if hasattr(run_obj, "result") and callable(run_obj.result):
         res = run_obj.result()
-        if hasattr(res, "get_counts") and callable(res.get_counts):
-            c = res.get_counts()
-            if isinstance(c, dict):
-                return c
-        if hasattr(res, "counts") and isinstance(res.counts, dict):
-            return res.counts
+        if hasattr(res, "expectation_value"):
+            ev = getattr(res, "expectation_value")
+            if isinstance(ev, list):
+                return [float(x) for x in ev]
 
-    # Fallback refresh by id
     job_id = getattr(run_obj, "job_id", None)
     if job_id:
         refreshed = bq.get(job_id)
         if isinstance(refreshed, list):
             refreshed = refreshed[0]
-        if hasattr(refreshed, "get_counts") and callable(refreshed.get_counts):
-            c = refreshed.get_counts()
-            if isinstance(c, dict):
-                return c
+        if hasattr(refreshed, "expectation_value"):
+            ev = getattr(refreshed, "expectation_value")
+            if isinstance(ev, list):
+                return [float(x) for x in ev]
         if hasattr(refreshed, "result") and callable(refreshed.result):
             res = refreshed.result()
-            if hasattr(res, "get_counts") and callable(res.get_counts):
-                c = res.get_counts()
-                if isinstance(c, dict):
-                    return c
+            if hasattr(res, "expectation_value"):
+                ev = getattr(res, "expectation_value")
+                if isinstance(ev, list):
+                    return [float(x) for x in ev]
 
-    raise RuntimeError("Could not extract counts from BlueQubit run object")
+    raise RuntimeError("Could not extract local-Z expectations from BlueQubit run object")
 
 
 def get_phase_times_ms(run_obj):
@@ -136,33 +125,36 @@ def get_phase_times_ms(run_obj):
     return build_ms, max(0.0, run_ms - build_ms)
 
 
-def metrics_from_counts(counts: dict[str, int], target_bits: str, expected_bits: int) -> dict:
-    total_shots = int(sum(counts.values()))
-    best_bits, best_count = max(counts.items(), key=lambda kv: kv[1])
-    best_ov = overlap_percent(best_bits, target_bits, expected_bits)
+def z_to_bit(z_val: float) -> str:
+    return "1" if z_val < 0 else "0"
 
-    weighted_ov = 0.0
-    for bits, ct in counts.items():
-        weighted_ov += overlap_percent(bits, target_bits, expected_bits) * float(ct)
-    weighted_ov = weighted_ov / total_shots if total_shots > 0 else 0.0
 
+def metrics_from_local_z(zs: list[float], target_bits: str, expected_bits: int) -> dict:
+    if len(zs) != expected_bits:
+        raise ValueError(
+            f"Expected {expected_bits} local-Z values, got {len(zs)}. "
+            "Cannot compute marginal-attack overlap with mismatched bit length."
+        )
+    key = "".join(z_to_bit(float(z)) for z in zs)
+    key_norm = normalize_bits(key, expected_bits)
     target_norm = normalize_bits(target_bits, expected_bits)
-    target_hits = int(counts.get(target_norm, 0))
-    hit_rate = 100.0 * target_hits / total_shots if total_shots > 0 else 0.0
-
-    best_norm = normalize_bits(best_bits, expected_bits)
-    matched = sum(1 for x, y in zip(best_norm, target_norm) if x == y)
+    ov = overlap_percent(key_norm, target_norm, expected_bits)
+    matched = sum(1 for x, y in zip(key_norm, target_norm) if x == y)
     return {
-        "measured_bitstring": best_norm,
+        "measured_bitstring": key_norm,
         "target_bitstring": target_norm,
         "matched_bits": matched,
         "total_bits": expected_bits,
-        "dominant_overlap_percent": best_ov,
-        "weighted_overlap_percent": weighted_ov,
-        "target_hit_rate_percent": hit_rate,
-        "top_count": int(best_count),
-        "num_unique_bitstrings": len(counts),
-        "total_counts": total_shots,
+        "overlap_percent": ov,
+        # Keep legacy field for plot compatibility.
+        "dominant_overlap_percent": ov,
+        "weighted_overlap_percent": ov,
+        "target_hit_rate_percent": 100.0 if key_norm == target_norm else 0.0,
+        "top_count": 1,
+        "num_unique_bitstrings": 1,
+        "total_counts": 1,
+        "marginal_attack_key": key_norm,
+        "local_z_expectations": [float(z) for z in zs],
     }
 
 
@@ -201,9 +193,9 @@ def safe_stem(name: str) -> str:
     return re.sub(r"[^A-Za-z0-9._=-]+", "_", name)
 
 
-def default_output_for(device: str, circuit_path: Path) -> Path:
+def default_output_for(device: str) -> Path:
     prefix = "GPU" if device == "mps.gpu" else "CPU"
-    return RESULTS_DIR / f"{prefix}_{safe_stem(circuit_path.name)}.jsonl"
+    return RESULTS_DIR / f"{prefix}_peaked_overlap_bond_dimension.jsonl"
 
 
 def resolve_input_circuit(input_circuit_arg: str) -> Path:
@@ -253,9 +245,11 @@ def run_benchmark(device: str, input_circuit: Path, output_file: Path, bond_dims
 
     with input_circuit.open(encoding="utf-8") as f:
         qc = QuantumCircuit.from_qasm_str(f.read())
-    qc = ensure_measurements(qc)
-
     n2, nq, ng, ncx = circuit_metrics(qc)
+    pauli_observable = [
+        "I" * (nq - qubit_no - 1) + "Z" + "I" * qubit_no
+        for qubit_no in range(nq)
+    ]
     expected_bits = int(parsed.get("sweep_num_qubits", nq))
     if expected_bits <= 0:
         expected_bits = nq
@@ -305,11 +299,12 @@ def run_benchmark(device: str, input_circuit: Path, output_file: Path, bond_dims
                     qc,
                     device=device,
                     options={"mps_bond_dimension": int(bond_dim)},
+                    pauli_sum=pauli_observable,
                     shots=int(shots),
                     asynchronous=False,
                 )
-                counts = result_to_counts(run_obj, bq)
-                metrics = metrics_from_counts(counts, target_bits, expected_bits)
+                local_zs = result_to_local_z_expectations(run_obj, bq)
+                metrics = metrics_from_local_z(local_zs, target_bits, expected_bits)
                 build_ms, sampling_ms = get_phase_times_ms(run_obj)
                 row = {
                     **row_base,
@@ -325,9 +320,8 @@ def run_benchmark(device: str, input_circuit: Path, output_file: Path, bond_dims
                     f.write(json.dumps(row) + "\n")
                 dominant_vals.append(float(row["dominant_overlap_percent"]))
                 print(
-                    f"done | dom={row['dominant_overlap_percent']:.2f}% "
-                    f"weighted={row['weighted_overlap_percent']:.2f}% "
-                    f"hit={row['target_hit_rate_percent']:.2f}%"
+                    f"done | overlap={row['dominant_overlap_percent']:.2f}% "
+                    f"matched={row['matched_bits']}/{row['total_bits']}"
                 )
             except Exception as e:
                 err = {**row_base, "error": str(e)}
@@ -363,24 +357,27 @@ def main() -> None:
         "--bond-dims",
         nargs="+",
         type=int,
-        default=BOND_DIMS,
-        help="Bond dimensions to test (default: 4 8 16 32 64 128 256 512 1024)",
+        default=None,
+        help="Optional explicit bond dimensions; otherwise CPU uses up to 512 and GPU up to 1536",
     )
-    parser.add_argument("--shots", type=int, default=SHOTS, help="Shots per trial (default: 2048)")
-    parser.add_argument("--trials", type=int, default=NUM_TRIALS, help="Trials per bond dimension (default: 1)")
+    parser.add_argument("--shots", type=int, default=SHOTS, help="Shots per trial (default: 1)")
+    parser.add_argument("--trials", type=int, default=NUM_TRIALS, help="Trials per bond dimension (default: 5)")
     args = parser.parse_args()
 
     if args.rzz_gates is not None:
         input_circuit = resolve_by_rzz_gates(int(args.rzz_gates))
     else:
         input_circuit = resolve_input_circuit(args.input_circuit)
-    output_file = Path(args.output).resolve() if args.output else default_output_for(args.device, input_circuit)
+    output_file = Path(args.output).resolve() if args.output else default_output_for(args.device)
+
+    default_bond_dims = BOND_DIMS_GPU if args.device == "mps.gpu" else BOND_DIMS_CPU
+    bond_dims = [int(x) for x in (args.bond_dims if args.bond_dims is not None else default_bond_dims)]
 
     run_benchmark(
         device=args.device,
         input_circuit=input_circuit,
         output_file=output_file,
-        bond_dims=[int(x) for x in args.bond_dims],
+        bond_dims=bond_dims,
         shots=int(args.shots),
         trials=int(args.trials),
     )

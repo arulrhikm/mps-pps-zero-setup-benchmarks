@@ -9,6 +9,7 @@ import json
 import numpy as np
 from pathlib import Path
 from collections import defaultdict
+from typing import Optional, Set
 
 # ── Paths ──────────────────────────────────────────────────────────────────
 DATA_DIR = Path(__file__).parent.parent / "data"       # ../data from plots/
@@ -17,7 +18,7 @@ PLOT_DIR = Path(__file__).parent.parent / "plots"       # ../plots from plotting
 # ── Visual identity ────────────────────────────────────────────────────────
 BACKENDS = {
     "PPS-GPU": {
-        "file":   "pps_gpu_benchmark.jsonl",
+        "file":   "pps_gpu_benchmark_h100.jsonl",
         "color":  "#2563EB",   # blue
         "marker": "o",
         "ls":     "-",
@@ -72,7 +73,7 @@ DELTA_TO_PAULIS = {
     2.9375e-06: 1_533_354_214,
     2.90625e-06: 1_564_846_523,
     2.8984375e-06: 1_572_933_629,
-    2.89453125e-06: 1_576_933_126,
+    2.89453125e-06: 1_527_827_263,
 }
 
 # Exact reference value for ⟨Z_62⟩ on the 127-qubit kicked Ising model.
@@ -155,11 +156,44 @@ def aggregate(records):
     }
 
 
-def load_all_backends():
-    """Load & aggregate every backend whose file exists. Returns dict."""
+def thin_dense_gpu_tail(d: dict) -> dict:
+    """
+    Same δ subsample as the runtime comparison plot for the dense GPU tail:
+    drop 9e-6 … 5e-6, keep 4.5e-6 and the finest δ (~1.5B Pauli terms).
+    """
+    delta = d["delta"]
+    drop_mid_band = {9e-06, 8e-06, 7e-06, 6e-06, 5e-06}
+    keep_tail = {4.5e-06, 2.89453125e-06}
+    mask = (~np.isin(delta, list(drop_mid_band))) & ((delta >= 1e-05) | np.isin(delta, list(keep_tail)))
+    return {k: np.asarray(v)[mask] for k, v in d.items()}
+
+
+def inverted_delta_xlim(plot_data: dict, lo_pad: float = 1.06, hi_pad: float = 0.88) -> tuple[float, float]:
+    """xlim (left, right) for δ axes using invert_xaxis: large δ left, small δ right."""
+    hi = max(float(np.max(v["delta"])) for v in plot_data.values()) * lo_pad
+    lo = min(float(np.min(v["delta"])) for v in plot_data.values()) * hi_pad
+    return hi, lo
+
+
+def load_all_backends(
+    backend_keys: Optional[Set[str]] = None,
+    pps_gpu_benchmark_filename: Optional[str] = None,
+):
+    """
+    Load & aggregate every backend whose file exists. Returns dict.
+
+    backend_keys: if set, only load these BACKENDS keys (e.g. exclude PPS-CPU).
+    pps_gpu_benchmark_filename: if set, use this JSONL for PPS-GPU instead of
+        BACKENDS[\"PPS-GPU\"][\"file\"] (e.g. MI300X AMD runs).
+    """
     data = {}
     for label, cfg in BACKENDS.items():
-        fp = DATA_DIR / cfg["file"]
+        if backend_keys is not None and label not in backend_keys:
+            continue
+        filename = cfg["file"]
+        if label == "PPS-GPU" and pps_gpu_benchmark_filename is not None:
+            filename = pps_gpu_benchmark_filename
+        fp = DATA_DIR / filename
         if not fp.exists():
             print(f"  [skip] {fp.name} not found")
             continue
@@ -190,29 +224,65 @@ def pauli_label(n):
     return str(int(n))
 
 
-def add_pauli_top_axis(ax_host):
+def pauli_tick_label(n: float) -> str:
+    """Compact Pauli-count label for top-axis ticks aligned to plotted δ values."""
+    n = float(abs(n))
+    if n >= 1e9:
+        return f"{n / 1e9:.1f}B"
+    if n >= 1e6:
+        return f"{n / 1e6:.0f}M"
+    if n >= 1e3:
+        return f"{n / 1e3:.0f}K" if n >= 10_000 else f"{n / 1e3:.1f}K"
+    return str(int(round(n)))
+
+
+def unique_deltas_from_plot_data(plot_data: dict) -> np.ndarray:
+    """Union of all δ values actually plotted (one row per distinct δ)."""
+    parts: list[np.ndarray] = []
+    for v in plot_data.values():
+        d = v.get("delta")
+        if d is None or len(d) == 0:
+            continue
+        parts.append(np.asarray(d, dtype=float).ravel())
+    if not parts:
+        return np.array([], dtype=float)
+    return np.unique(np.concatenate(parts))
+
+
+def add_pauli_top_axis(ax_host, plot_deltas: Optional[np.ndarray] = None):
     """
-    Add a secondary top x-axis showing Max Pauli counts,
-    mirroring the log-scaled δ axis of ax_host.
-    Returns the twin axis.
+    Add a secondary top x-axis: Max Pauli terms vs δ.
+
+    If ``plot_deltas`` is set, every distinct plotted δ (within the host xlim)
+    gets a tick labeled with the Pauli count from ``DELTA_TO_PAULIS`` (nearest
+    table key via ``delta_to_paulis``). Otherwise use a fixed default tick set.
+    Call after ``set_xlim`` on the host axis.
     """
-    import matplotlib.pyplot as plt
     ax2 = ax_host.twiny()
     ax2.set_xscale("log")
     ax2.set_xlim(ax_host.get_xlim())
 
-    # Choose a readable subset of ticks.
-    # The last two are slightly offset from their exact deltas for visual spacing.
-    tick_deltas = [1e-2, 1e-3, 1e-4, 1e-5, 4.7e-6, 2.86e-6]
-    tick_labels = ["664", "33K", "2M", "149M", "670M", "1.58B"]
-    # Only keep those inside the current xlim
     lo, hi = sorted(ax_host.get_xlim())
-    tick_deltas = [d for d in tick_deltas if lo * 0.9 <= d <= hi * 1.1]
 
-    paired = [(d, lab) for d, lab in zip(tick_deltas, tick_labels) if lo * 0.9 <= d <= hi * 1.1]
-    ax2.set_xticks([d for d, _ in paired])
-    ax2.set_xticklabels([lab for _, lab in paired], fontsize=9)
-    ax2.set_xlabel("Max Pauli Terms", fontsize=11, labelpad=6)
+    if plot_deltas is not None and np.size(plot_deltas) > 0:
+        u = np.unique(np.asarray(plot_deltas, dtype=float).ravel())
+        u = u[np.logical_and(u >= lo * 0.98, u <= hi * 1.02)]
+        u = np.sort(u)
+        paulis = delta_to_paulis(u)
+        labs = [pauli_tick_label(float(p)) for p in paulis]
+        rot = 40 if len(u) > 8 else 0
+        fs = 7.5 if len(u) > 10 else 9
+        ax2.set_xticks(u)
+        ax2.set_xticklabels(labs, fontsize=fs, rotation=rot)
+    else:
+        tick_deltas = [1e-2, 1e-3, 1e-4, 1e-5, 4.5e-06, 2.89453125e-06]
+        tick_labels = ["664", "33K", "2M", "149M", "670M", "1.5B"]
+        tick_deltas = [d for d in tick_deltas if lo * 0.9 <= d <= hi * 1.1]
+        paired = [(d, lab) for d, lab in zip(tick_deltas, tick_labels) if lo * 0.9 <= d <= hi * 1.1]
+        ax2.set_xticks([d for d, _ in paired])
+        ax2.set_xticklabels([lab for _, lab in paired], fontsize=9)
+
+    ax2.set_xlabel("Max Pauli Terms", fontsize=11, labelpad=2)
     ax2.tick_params(direction="in", length=4)
     ax2.minorticks_off()
     return ax2
