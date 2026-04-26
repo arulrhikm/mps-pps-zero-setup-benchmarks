@@ -236,8 +236,8 @@ def render_plot(cpu_agg, gpu_agg, cpu_fit, gpu_fit, sigma_mult, output_png):
     # Headroom on log axis for extrapolation label + tight_layout
     ylo, yhi = ax.get_ylim()
     ax.set_ylim(ylo, yhi * 1.35)
-    ax.set_xlabel(r"Bond Dimension  $\chi$", fontsize=13)
-    ax.set_ylabel("Runtime  $T$  (s)", fontsize=13)
+    ax.set_xlabel(r"Bond Dimension ($\chi$)", fontsize=13)
+    ax.set_ylabel("Run Time (s)", fontsize=13)
 
     depth_val = 10  # all current data is d=10
     ax.set_title(

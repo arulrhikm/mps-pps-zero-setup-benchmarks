@@ -129,10 +129,10 @@ ax.plot(
 ax.set_yscale("log")
 ax.set_xscale("log")
 ax.invert_xaxis()
-ax.set_ylabel("Runtime  (seconds)")
-ax.set_xlabel(r"Truncation threshold  $\delta$")
+ax.set_ylabel("Run Time (s)")
+ax.set_xlabel(r"Truncation Threshold ($\delta$)")
 ax.set_title(
-    "Runtime vs truncation threshold",
+    "Run Time vs Truncation Threshold",
     loc="center",
     fontweight="bold",
     pad=35,

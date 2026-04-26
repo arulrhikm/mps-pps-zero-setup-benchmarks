@@ -141,8 +141,8 @@ def main():
     for ref_n in (32, 64, 96):
         ax.axvline(ref_n, color="grey", lw=0.8, ls=":", alpha=0.55)
 
-    ax.set_xlabel("Number of Qubits  $n$", fontsize=13)
-    ax.set_ylabel("Runtime  $T$  (s)", fontsize=13)
+    ax.set_xlabel("Number of Qubits ($n$)", fontsize=13)
+    ax.set_ylabel("Run Time (s)", fontsize=13)
     deg = args.approximation_degree
     chi = args.bond_dimension
     ax.set_title(

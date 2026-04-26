@@ -329,8 +329,8 @@ def main() -> None:
     }
     y_label = y_label_map.get(args.overlap_field, f"{args.overlap_field} (%)")
 
-    ax.set_xlabel("Bond Dimension", fontsize=12)
-    ax.set_ylabel("Runtime (s)", fontsize=12)
+    ax.set_xlabel(r"Bond Dimension ($\chi$)", fontsize=12)
+    ax.set_ylabel("Run Time (s)", fontsize=12)
     ax.set_title("Peaked Circuits: Runtime vs Bond Dimension", fontsize=14)
     ax.grid(True, which="both", alpha=0.30, linestyle="--")
     ax.set_yscale("log")
@@ -347,7 +347,7 @@ def main() -> None:
     ax_top.set_xlim(ax.get_xlim())
     ax_top.set_xticks(xticks)
     ax_top.set_xticklabels(_median_overlap_labels(cpu_data, gpu_data, xticks), fontsize=8)
-    ax_top.set_xlabel("Median Overlap (%)   [C=CPU, G=GPU]", fontsize=10, labelpad=8)
+    ax_top.set_xlabel("Median Overlap (%)", fontsize=10, labelpad=8)
 
     if n_cpu + n_gpu > 0:
         handles = [
@@ -423,8 +423,8 @@ def main() -> None:
                 label=rf"GPU fit: runtime={m:.2f}·log2($\chi$)+{b:.1f}",
             )
 
-        ax_fit.set_xlabel("Bond Dimension", fontsize=12)
-        ax_fit.set_ylabel("Runtime (s)", fontsize=12)
+        ax_fit.set_xlabel(r"Bond Dimension ($\chi$)", fontsize=12)
+        ax_fit.set_ylabel("Run Time (s)", fontsize=12)
         ax_fit.set_title("Peaked Circuits: Runtime vs Bond Dimension (with simple fit)", fontsize=14)
         ax_fit.grid(True, which="both", alpha=0.30, linestyle="--")
         ax_fit.set_yscale("log")

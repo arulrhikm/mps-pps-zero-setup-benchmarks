@@ -61,8 +61,8 @@ ax.set_yscale("log")
 ax.set_xscale("log")
 ax.invert_xaxis()
 ax.set_xlim(*U.inverted_delta_xlim(plot_data))
-ax.set_ylabel(r"Error  $\epsilon = |O_{\mathrm{exact}} - O_{\mathrm{PPS}}|$")
-ax.set_xlabel(r"Truncation threshold  $\delta$")
+ax.set_ylabel(r"Error ($\epsilon = |O_{\mathrm{exact}} - O_{\mathrm{PPS}}|$)")
+ax.set_xlabel(r"Truncation Threshold ($\delta$)")
 ax.set_title(
     "Accuracy Error vs truncation threshold",
     loc="center",

@@ -178,8 +178,8 @@ def main():
 
     ax.set_xscale("log")
     ax.set_yscale("log")
-    ax.set_xlabel(r"Bond Dimension  $\chi$", fontsize=12)
-    ax.set_ylabel(r"$T_{\mathrm{build}}$  (s)", fontsize=12)
+    ax.set_xlabel(r"Bond Dimension ($\chi$)", fontsize=12)
+    ax.set_ylabel("Build Time (s)", fontsize=12)
     ax.set_title(
         r"MPS build time vs $\chi$  (shots$=1$; sampling not plotted)",
         fontsize=12, pad=10)

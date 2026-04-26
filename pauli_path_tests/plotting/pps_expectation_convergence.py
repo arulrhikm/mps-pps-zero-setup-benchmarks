@@ -79,7 +79,7 @@ ax.text(
 ax.set_xscale("log")
 ax.invert_xaxis()
 ax.set_xlim(*U.inverted_delta_xlim(plot_data))
-ax.set_xlabel(r"Truncation threshold  $\delta$")
+ax.set_xlabel(r"Truncation Threshold ($\delta$)")
 ax.set_ylabel(r"$\langle Z_{62} \rangle_{\mathrm{PPS}}$")
 ax.set_title(
     r"Convergence of $\langle Z_{62}\rangle$ estimate "

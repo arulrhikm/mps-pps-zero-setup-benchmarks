@@ -155,9 +155,9 @@ ax.set_yscale("log")
 y_min, y_max = ax.get_ylim()
 ax.set_ylim(y_min, y_max * 5.0)
 
-ax.set_xlabel("Number of Pauli terms  $N_P$")
-ax.set_ylabel("Speedup   (other / GPU)")
-ax.set_title("GPU speedup grows with problem size",
+ax.set_xlabel("Number of Pauli Terms ($N_P$)")
+ax.set_ylabel("Speedup (Other / GPU)")
+ax.set_title("GPU Speedup Grows with Problem Size",
              loc="center", fontweight="bold")
 ax.grid(True, which="major", ls="--", alpha=0.35)
 ax.grid(True, which="minor", ls=":", alpha=0.15)

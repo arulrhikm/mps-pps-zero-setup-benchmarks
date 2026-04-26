@@ -166,8 +166,8 @@ def main():
             bbox=dict(boxstyle="round,pad=0.35", fc="white",
                       ec="#bbb", alpha=0.92))
 
-    ax.set_xlabel("Circuit Depth  $d$", fontsize=13)
-    ax.set_ylabel("Runtime  $T$  (s)", fontsize=13)
+    ax.set_xlabel("Circuit Depth ($d$)", fontsize=13)
+    ax.set_ylabel("Run Time (s)", fontsize=13)
     ax.set_title(
         r"Depth scaling  ($n = 40$, $\chi = 256$)",
         fontsize=12, pad=10)

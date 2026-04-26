@@ -265,7 +265,7 @@ def main() -> None:
     ]
     ax.legend(handles=legend_handles, loc="upper left", framealpha=0.95, fontsize=9)
 
-    ax.set_xlabel("# 2-qubit gates (decomposed)", fontsize=11)
+    ax.set_xlabel("Two-Qubit Gates (Decomposed)", fontsize=11)
     y_label = "Median run time (ms)"
     if not args.linear_y:
         ax.set_yscale("log")

@@ -152,7 +152,7 @@ def draw_panel(ax, agg, title, c_build, c_samp):
         ax.set_title(title, fontsize=12)
 
     ax.set_xlabel("Shots", fontsize=11)
-    ax.set_ylabel("Time (s)", fontsize=11)
+    ax.set_ylabel("Run Time (s)", fontsize=11)
     ax.grid(True, axis="y", linestyle="--", alpha=0.3)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)

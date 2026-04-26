@@ -56,9 +56,9 @@ ax.set_xscale("log")
 ax.invert_xaxis()
 if plot_data:
     ax.set_xlim(*U.inverted_delta_xlim(plot_data))
-ax.set_ylabel("Runtime  (seconds)")
-ax.set_xlabel(r"Truncation threshold  $\delta$")
-ax.set_title("Runtime vs truncation threshold",
+ax.set_ylabel("Run Time (s)")
+ax.set_xlabel(r"Truncation Threshold ($\delta$)")
+ax.set_title("Run Time vs Truncation Threshold",
              loc="center", fontweight="bold", pad=10)
 ax.grid(True, which="major", ls="--", alpha=0.35)
 ax.grid(True, which="minor", ls=":", alpha=0.15)

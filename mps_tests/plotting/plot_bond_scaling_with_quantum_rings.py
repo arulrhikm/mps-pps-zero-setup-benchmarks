@@ -276,8 +276,8 @@ def main():
     ax.set_xlim(20, EXTRAP_CHI * 1.55)
     ylo, yhi = ax.get_ylim()
     ax.set_ylim(ylo, yhi * 1.35)
-    ax.set_xlabel(r"Bond Dimension  $\chi$", fontsize=13)
-    ax.set_ylabel("Runtime  $T$  (s)", fontsize=13)
+    ax.set_xlabel(r"Bond Dimension ($\chi$)", fontsize=13)
+    ax.set_ylabel("Run Time (s)", fontsize=13)
     ax.set_title(
         f"Bond dimension scaling  ($n={NUM_QUBITS}$, $d={DEPTH}$)  "
         f"— MPS and Quantum Rings",

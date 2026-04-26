@@ -43,6 +43,11 @@ NUM_TRIALS = 5
 SHOTS = 1
 
 
+def write_jsonl_row(output_file: Path, row: dict) -> None:
+    with output_file.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(row) + "\n")
+
+
 def parse_target_from_filename(filename: str) -> str | None:
     m = re.search(r"target=([01]+)", filename)
     return m.group(1) if m else None
@@ -158,7 +163,7 @@ def metrics_from_local_z(zs: list[float], target_bits: str, expected_bits: int) 
     }
 
 
-def is_completed(row: dict, circuit_key: str, shots: int) -> bool:
+def is_completed_run(row: dict, circuit_key: str, shots: int) -> bool:
     return (
         row.get("circuit_key") == circuit_key
         and isinstance(row.get("trial"), int)
@@ -184,13 +189,9 @@ def load_completed(output_file: Path, circuit_key: str, shots: int) -> dict[tupl
                 r = json.loads(s)
             except json.JSONDecodeError:
                 continue
-            if is_completed(r, circuit_key=circuit_key, shots=shots):
+            if is_completed_run(r, circuit_key=circuit_key, shots=shots):
                 done[(int(r["bond_dimension"]), int(r["trial"]))] = r
     return done
-
-
-def safe_stem(name: str) -> str:
-    return re.sub(r"[^A-Za-z0-9._=-]+", "_", name)
 
 
 def default_output_for(device: str) -> Path:
@@ -234,7 +235,14 @@ def resolve_by_rzz_gates(rzz_gates: int) -> Path:
     return matched[0].resolve()
 
 
-def run_benchmark(device: str, input_circuit: Path, output_file: Path, bond_dims: list[int], shots: int, trials: int) -> None:
+def run_benchmark(
+    device: str,
+    input_circuit: Path,
+    output_file: Path,
+    bond_dims: list[int],
+    shots: int,
+    trials: int,
+) -> None:
     bq = bluequbit.init(os.environ.get("BLUEQUBIT_API_TOKEN"))
 
     circuit_key = input_circuit.name
@@ -271,12 +279,12 @@ def run_benchmark(device: str, input_circuit: Path, output_file: Path, bond_dims
     print(f"resume rows={len(completed)}")
     print(f"{'=' * 80}\n")
 
-    for bond_dim in bond_dims:
-        dominant_vals = []
+    for bond_dim in sorted(set(int(x) for x in bond_dims)):
+        overlap_vals = []
         for t in range(trials):
             key = (bond_dim, t)
             if key in completed:
-                dominant_vals.append(float(completed[key]["dominant_overlap_percent"]))
+                overlap_vals.append(float(completed[key]["dominant_overlap_percent"]))
                 print(f"Skipping (chi={bond_dim}, trial={t}) — already done")
                 continue
 
@@ -316,24 +324,22 @@ def run_benchmark(device: str, input_circuit: Path, output_file: Path, bond_dims
                 if build_ms is not None:
                     row["mps_build_time_ms"] = build_ms
                     row["sampling_time_ms"] = sampling_ms
-                with output_file.open("a", encoding="utf-8") as f:
-                    f.write(json.dumps(row) + "\n")
-                dominant_vals.append(float(row["dominant_overlap_percent"]))
+                write_jsonl_row(output_file, row)
+                overlap_vals.append(float(row["dominant_overlap_percent"]))
                 print(
                     f"done | overlap={row['dominant_overlap_percent']:.2f}% "
                     f"matched={row['matched_bits']}/{row['total_bits']}"
                 )
             except Exception as e:
                 err = {**row_base, "error": str(e)}
-                with output_file.open("a", encoding="utf-8") as f:
-                    f.write(json.dumps(err) + "\n")
+                write_jsonl_row(output_file, err)
                 print(f"ERROR: {e}")
 
-        if dominant_vals:
-            mean_dom = sum(dominant_vals) / len(dominant_vals)
-            print(f"chi={bond_dim}: dominant mean={mean_dom:.2f}% over {len(dominant_vals)} trial(s)")
-            if len(dominant_vals) >= trials and all(v >= 100.0 for v in dominant_vals):
-                print(f"chi={bond_dim}: 100% dominant overlap on all trials -> early stop")
+        if overlap_vals:
+            mean_overlap = sum(overlap_vals) / len(overlap_vals)
+            print(f"chi={bond_dim}: overlap mean={mean_overlap:.2f}% over {len(overlap_vals)} trial(s)")
+            if len(overlap_vals) >= trials and all(v >= 100.0 for v in overlap_vals):
+                print(f"chi={bond_dim}: 100% overlap on all trials -> early stop")
                 break
 
     print("\nDone.")
@@ -358,7 +364,7 @@ def main() -> None:
         nargs="+",
         type=int,
         default=None,
-        help="Optional explicit bond dimensions; otherwise CPU uses up to 512 and GPU up to 1536",
+        help="Optional explicit bond dimensions; otherwise CPU uses up to 1024 and GPU up to 1536",
     )
     parser.add_argument("--shots", type=int, default=SHOTS, help="Shots per trial (default: 1)")
     parser.add_argument("--trials", type=int, default=NUM_TRIALS, help="Trials per bond dimension (default: 5)")
