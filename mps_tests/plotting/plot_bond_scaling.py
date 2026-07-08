@@ -142,7 +142,16 @@ def power_law(x, a, alpha):
 # Main
 # ---------------------------------------------------------------------------
 
-def render_plot(cpu_agg, gpu_agg, cpu_fit, gpu_fit, sigma_mult, output_png):
+def render_plot(
+    cpu_agg,
+    gpu_agg,
+    cpu_fit,
+    gpu_fit,
+    sigma_mult,
+    output_png,
+    annotate_n=False,
+    show_error_bars=True,
+):
     cpu_a, cpu_alpha, cpu_ae = cpu_fit
     gpu_a, gpu_alpha, gpu_ae = gpu_fit
 
@@ -159,21 +168,29 @@ def render_plot(cpu_agg, gpu_agg, cpu_fit, gpu_fit, sigma_mult, output_png):
         yerr = sigma_mult * stds
 
         # Draw k*sigma vertical error bars first, then markers on top.
-        ax.errorbar(
-            chis, meds, yerr=yerr, fmt="none", ecolor=color,
-            elinewidth=1.3, capsize=3.5, capthick=1.1, alpha=0.55, zorder=4
-        )
+        if show_error_bars:
+            ax.errorbar(
+                chis, meds, yerr=yerr, fmt="none", ecolor=color,
+                elinewidth=1.3, capsize=3.5, capthick=1.1, alpha=0.55, zorder=4
+            )
         ax.plot(
             chis, meds,
             linestyle="None", marker=marker, color=color, markersize=ms,
             markeredgecolor="white", markeredgewidth=0.6,
             zorder=5, label=label,
         )
-        for c, m, n in zip(chis, meds, ntr):
-            ax.annotate(f"n={n}", xy=(c, m),
-                        xytext=(0, 11), textcoords="offset points",
-                        fontsize=6, color=color, ha="center", alpha=0.75)
-
+        if annotate_n:
+            for c, m, n in zip(chis, meds, ntr):
+                ax.annotate(
+                    f"n={n}",
+                    xy=(c, m),
+                    xytext=(0, 11),
+                    textcoords="offset points",
+                    fontsize=6,
+                    color=color,
+                    ha="center",
+                    alpha=0.75,
+                )
     _plot_series(cpu_agg, CPU_COLOR, "o",  "MPS CPU")
     _plot_series(gpu_agg, GPU_COLOR, "^",  "MPS GPU")
 
@@ -294,7 +311,17 @@ def main():
         cpu_fit=(cpu_a, cpu_alpha, cpu_ae),
         gpu_fit=(gpu_a, gpu_alpha, gpu_ae),
         sigma_mult=3,
+        output_png=OUTPUT_PNG,
+        annotate_n=False,
+        show_error_bars=False,
+    )
+    render_plot(
+        cpu_agg, gpu_agg,
+        cpu_fit=(cpu_a, cpu_alpha, cpu_ae),
+        gpu_fit=(gpu_a, gpu_alpha, gpu_ae),
+        sigma_mult=3,
         output_png=OUTPUT_PNG_3SIGMA,
+        annotate_n=False,
     )
     render_plot(
         cpu_agg, gpu_agg,
@@ -302,6 +329,7 @@ def main():
         gpu_fit=(gpu_a, gpu_alpha, gpu_ae),
         sigma_mult=5,
         output_png=OUTPUT_PNG_5SIGMA,
+        annotate_n=False,
     )
 
     # -- Summary table ------------------------------------------------------

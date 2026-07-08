@@ -1,0 +1,78 @@
+SUBMISSION: 353
+TITLE: Benchmarking Zero-Setup Quantum Circuit Simulators
+
+----------------------- REVIEW 1 ---------------------
+
+SUBMISSION: 353
+TITLE: Benchmarking Zero-Setup Quantum Circuit Simulators
+
+----------- Overall evaluation -----------
+SCORE: 0 (borderline paper)
+----- TEXT:
+The paper entitled "Benchmarking Zero-Setup Quantum Circuit Simulators" presents a benchmark study of quantum circuit simulators. The authors compare the performance of two cloud platforms (BlueQubit and AWS Braket) and three local simulators (Quantum Rings, PPS Qiskit, and PauliPropagation.jl) using four benchmark circuits (Quantum Volume, QFT, kicked Ising, and peaked circuits). They report five metrics for each combination and provide a GitHub repository containing the code, definitions, and configuration files. The study evaluates state-vector simulation, matrix product states (MPS), and Pauli path simulation (PPS). Additionally, the authors make all data and benchmark artifacts publicly available, enabling reproducibility and extensibility. The selection and justification of the four benchmark circuits is particularly valuable for future comparative studies.
+
+The paper focuses on what the authors define as "zero-setup simulators", hosted platforms and cloud-accessible backends that allow users to submit circuits and retrieve results without managing local infrastructure. However, the authors incorporate a local laptop in the comparison alongside cloud providers, which raises questions about consistency with this definition and the results. Furthermore, it is not always clear which platforms are evaluated in each benchmark. For instance, local simulators do not appear to be used in Sections IV (Results: State-Vector Baseline) and V (Results: MPS Benchmarks), but only in Section VI (Results: PPS Benchmarks). This can only be inferred indirectly from the figures, rather than being explicitly stated. In addition, it is unclear what exactly is being compared: are all systems running the same type of simulator (thus comparing implementation efficiency and hardware performance), or are different simulation programs being compared across
+platforms (thus conflating software and hardware differences)?
+
+The benchmarking effort itself, including the discussion, the choice of quantum circuits, the parameter selection, and the range of experiments conducted, is thorough and carefully executed. The comparison between CPU and GPU performance, as well as the analysis of when each option is preferable, is particularly insightful. Overall, this is a detailed and meticulous piece of work. However, the only truly fair comparison appears to be between the two cloud platforms.
+
+As described in the paper, local simulators are executed on a laptop equipped with an Intel Core i7-1260P (12 cores, score of 16524 in www.cpubenchmark.net), whereas BlueQubit uses Intel Xeon Platinum processors (50+ cores, score of around 70000 in www.cpubenchmark.net). Although the authors state that the benchmark uses the small2 configuration with 20 cores, core counts alone do not ensure comparable performance, as individual core capabilities may differ significantly. Moreover, there is limited description of the AWS Braket SV1 platform. As a result, the comparison involves highly heterogeneous systems, which undermines the fairness and interpretability of the results.
+
+The authors should clarify these aspects to improve the transparency and rigor of the study.
+
+
+----------------------- REVIEW 2 ---------------------
+
+SUBMISSION: 353
+TITLE: Benchmarking Zero-Setup Quantum Circuit Simulators
+
+----------- Overall evaluation -----------
+SCORE: 1 (weak accept)
+----- TEXT:
+This paper describes a holistic and a standardized approach to (zero-setup) benchmarking quantum circuits simulation in cross platform manner.  In particular, methods such as state vector, Mixed Product State (MPS) and Pauli Path Simulation (PPS) are examined by scaling parameters, namely bond dimension, qubit count, circuit depth and truncation threshold. There are two phases, namely,  build phase and sampling phase in the benchmarking structure, where in Section V, the reason for this separation is explained. The simulators under study in this paper are based on both CPU and GPU across BlueQubits, AWS Amazon Bracket, Quantum Rings, Qiskit PPS and Pauli Propagation toolkits.  The benchmarked circuits include random SU(4) family, QFT, Kicked Ising and Peaked circuits.
+
+Compared to recent work on benchmarking, one advantage of this study is considering 3 different methods such as MPS and PPS, instead of focusing on state vector, which majority of benchmarks are based on. Another advantage is setting cloud based computation as default.
+
+Given the reliance of current research in quantum computing applications on cloud based simulations, the paper touches on a very useful topic. The benchmark is available to researchers and experiments are through. In particular, Peaked circuits, along with classic benchmarks, are very interesting choices to demonstrate quantum advantage.
+
+While the paper is well written and the benchmarking framework sounds beneficial to studies which are based on quantum simulation, the main issue with this work is the fairness of comparisons with other platforms since all experiments are done on Bluqubits platform. Another issue is that the advantages of GPU platform at higher scale, seems to stem from parallelization.
+
+It is unclear how well parallelized CPU platforms respond to this benchmark. Also, it would be nice to include variational quantum circuits and Quantum Machine learning algorithms in the benchmark, where these algorithms intrinsically have a hybrid nature and their simulation needs both CPUs and GPUs. Additionally given that the paper assumes zero setup (cloud based computation), where a higher level description of computation is given, a web interface such as MQT benchmark could be very useful, to include compilation time in the benchmark.
+
+
+* Minor comments:
+-In the abstract, "commodity CPU implementations" → "commodity CPU-based implementations"
+-Section III-A, remove unnecessary hyphens:  systems—workstation- and HPC-class nodes" or "systems, workstation- and HPC-class nodes".
+
+
+----------------------- REVIEW 3 ---------------------
+
+SUBMISSION: 353
+TITLE: Benchmarking Zero-Setup Quantum Circuit Simulators
+
+----------- Overall evaluation -----------
+SCORE: -2 (reject)
+----- TEXT:
+This paper presents a benchmarking study of zero-setup quantum circuit simulators across state-vector, matrix product state (MPS), and Pauli path simulation (PPS) methods. The authors compare BlueQubit, AWS Braket SV1, Quantum Rings, PPS-Qiskit, and PauliPropagation.jl using a common benchmark suite and analyze scaling behavior with respect to qubit count, circuit depth, bond dimension, and truncation thresholds. The paper is well written, the experiments are extensive, and the topic is highly relevant to practitioners who increasingly rely on cloud-accessible quantum simulation environments. The analysis of MPS and PPS scaling characteristics provides useful insights for the quantum software community.
+
+Strengths
+
+- Addresses a relevant and practical problem for quantum software engineering and experimentation.
+- Provides a broad empirical evaluation covering multiple simulation paradigms and workloads.
+- Identifies useful crossover points between CPU and GPU execution regimes and highlights the role of entanglement structure in simulator performance.
+- Includes a public repository intended to support reproducibility and future benchmarking efforts.
+- The observations regarding MPS bond-dimension scaling and PPS convergence behavior are potentially valuable beyond the specific platforms evaluated.
+
+Major Concerns
+
+The primary concern relates to the neutrality and validity of the evaluation methodology. All authors are affiliated with BlueQubit, and the experimental setup appears to favor the authors' platform. BlueQubit's MPS and PPS implementations are evaluated on A100 GPU infrastructure, while competing PPS implementations are executed on a commodity laptop with 16 GB of RAM. As a result, several headline conclusions regarding scalability, speedup, and reachable accuracy regimes conflate algorithmic performance with differences in available hardware resources. While the paper acknowledges some of these limitations, the resulting comparisons are frequently presented as platform comparisons rather than infrastructure comparisons.
+
+A second concern is the selection of baselines. AWS is represented solely through the SV1 simulator, despite the broader AWS ecosystem supporting GPU-backed quantum simulation workflows [1]. Consequently, the comparison may not represent the strongest available alternatives and may underestimate the performance achievable on competing platforms. The paper should justify why SV1 was selected as the sole AWS baseline and discuss how alternative AWS simulation offerings might affect the conclusions.
+
+The reproducibility claims also appear weaker than stated. Although benchmarking code is made available, the artifact does not appear to include complete environment specifications such as dependency manifests, pinned package versions, container definitions, or equivalent mechanisms necessary to recreate the reported environment. Given that reproducibility is presented as a key contribution and that the paper focuses on "zero-setup" workflows, the lack of a fully specified execution environment is surprising and weakens the reproducibility claims.
+
+An additional concern is the treatment of cost. The paper explicitly cites the cloud cost of AWS Braket SV1 as a reason for discontinuing experiments beyond 31 qubits, yet no comparable discussion is provided for BlueQubit. Cost is an important practical consideration for users of zero-setup simulation platforms and should be treated as a first-class evaluation metric alongside runtime and accuracy. Without reporting cost-to-solution or comparable cost metrics across platforms, it is difficult to assess whether the reported performance advantages translate into practical benefits for users. The current presentation highlights AWS cost limitations while omitting a comparable analysis for BlueQubit, introducing another asymmetry into the evaluation.
+
+Finally, the framing of the paper occasionally shifts from scientific characterization toward vendor-centric performance comparisons. Many of the conclusions emphasize that BlueQubit achieves the fastest runtimes or reaches regimes unavailable to competitors. While these observations may be factually correct within the reported setup, the combination of author affiliation, hardware asymmetry, baseline selection, and lack of cost analysis creates the appearance of a vendor benchmark rather than a neutral scientific study. The paper would benefit from focusing more strongly on the general lessons regarding MPS and PPS behavior and less on platform-specific rankings.
+
+[1] https://docs.aws.amazon.com/braket/latest/developerguide/braket-jobs.html

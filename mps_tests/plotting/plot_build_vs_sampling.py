@@ -142,8 +142,6 @@ def main():
             continue
         chis = np.array(sorted(data), dtype=float)
         bmed = np.array([data[c]["build_med"] for c in chis])
-        ntri = [data[c]["n_trials"] for c in chis]
-
         ax.plot(
             chis, bmed,
             linestyle="None", marker=marker, color=color, markersize=9,
@@ -151,11 +149,6 @@ def main():
             zorder=5,
             label=rf"{lbl} $T_{{\mathrm{{build}}}}$",
         )
-
-        for c, m, n in zip(chis, bmed, ntri):
-            ax.annotate(f"n={n}", xy=(c, m),
-                          xytext=(0, 11), textcoords="offset points",
-                          fontsize=6, color=color, ha="center", alpha=0.75)
 
         if a is not None:
             xs = np.logspace(np.log10(chis.min()), np.log10(chis.max()), 200)
