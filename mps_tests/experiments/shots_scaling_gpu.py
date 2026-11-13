@@ -26,7 +26,6 @@ from bluequbit.job_metadata_constants import (
 )
 from qiskit.circuit.library import quantum_volume
 
-os.environ["BLUEQUBIT_MAIN_ENDPOINT"] = "https://dev.app.bluequbit.io/api/v1"
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(os.path.dirname(SCRIPT_DIR), "data")

@@ -1,0 +1,10 @@
+# Figures (tools/regenerate_all_plots.py)
+numpy
+scipy
+pandas
+matplotlib
+# Experiments
+bluequbit
+qiskit
+# Cross-platform runs (optional)
+amazon-braket-sdk

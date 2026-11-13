@@ -27,14 +27,15 @@ object per line), `plotting/` (figure scripts) and `plots/` (the figures).
 Regenerate the figures from the recorded data (no account needed):
 
 ```
+pip install -r requirements.txt
 python tools/regenerate_all_plots.py
 ```
 
 Rerunning the experiments needs accounts on the platforms being measured. Set `BLUEQUBIT_API_TOKEN` for the
 BlueQubit runs, `QR_TOKEN` and `QR_NAME` for Quantum Rings, and the usual AWS credentials for Braket
-(`crossplatform_tests/experiments/*ENV.txt` show the variables). The Python scripts use `bluequbit`, `qiskit`,
-`numpy`, `scipy`, `pandas` and `matplotlib`, plus `amazon-braket-sdk` and the Quantum Rings toolkit for the
-cross-platform runs. The PauliPropagation.jl baseline needs Julia.
+(`crossplatform_tests/experiments/*ENV.txt` show the variables). The scripts use BlueQubit's default endpoint;
+set `BLUEQUBIT_MAIN_ENDPOINT` to target another. The Quantum Rings runs also need the Quantum Rings toolkit,
+and the PauliPropagation.jl baseline needs Julia.
 
 ## Citing
 
@@ -49,3 +50,7 @@ cross-platform runs. The PauliPropagation.jl baseline needs Julia.
   primaryClass  = {quant-ph}
 }
 ```
+
+## Licence
+
+MIT (`LICENSE`).

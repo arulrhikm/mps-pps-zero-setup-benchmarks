@@ -30,7 +30,6 @@ from pathlib import Path
 import bluequbit
 from qiskit import QuantumCircuit
 
-os.environ["BLUEQUBIT_MAIN_ENDPOINT"] = "https://dev.app.bluequbit.io/api/v1"
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 MPS_TESTS_ROOT = SCRIPT_DIR.parent

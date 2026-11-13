@@ -9,7 +9,6 @@ from qiskit.circuit.library import quantum_volume
 import os
 
 # Route to the dev environment to bypass runtime limits
-os.environ["BLUEQUBIT_MAIN_ENDPOINT"] = "https://dev.app.bluequbit.io/api/v1"
 
 bq = bluequbit.init("kIE80aSmOKwNBZOzYiUEIymdFkEVFnyS")
 

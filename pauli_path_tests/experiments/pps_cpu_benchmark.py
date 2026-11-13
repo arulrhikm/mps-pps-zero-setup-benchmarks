@@ -20,7 +20,6 @@ from bluequbit.library.helpers.hardware_connectivites import IBM_127_HEAVY_HEX_M
 from qiskit import QuantumCircuit
 
 # Route to the dev environment to bypass runtime limits
-# os.environ["BLUEQUBIT_MAIN_ENDPOINT"] = "https://dev.app.bluequbit.io/api/v1"
 
 bq = bluequbit.init("lEiTmm6zeLxxZ6q3aKBMsxwhrdnDr7vF")  # production token
 
